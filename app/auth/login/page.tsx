@@ -1,16 +1,9 @@
-import NextLink from "next/link";
-
-import { login } from "./actions";
+import LoginForm from "@/components/forms/auth/LoginForm";
 
 export default function LoginPage() {
   return (
-    <form>
-      <label htmlFor="fullName">Email:</label>
-      <input id="email" name="email" type="email" required />
-      <label htmlFor="password">Password:</label>
-      <input id="password" name="password" type="password" required />
-      <button formAction={login}>Log in</button>
-      <NextLink href="/auth/register">Sign up</NextLink>
-    </form>
+    <div className="flex items-center justify-center h-screen w-full">
+      <LoginForm />
+    </div>
   );
 }

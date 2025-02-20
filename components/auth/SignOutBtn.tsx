@@ -1,6 +1,6 @@
 "use client";
 
-import { signOut } from "@/app/auth/login/actions";
+import { signOut } from "@/lib/actions/auth";
 
 export default function Home() {
   return (
