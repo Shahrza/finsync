@@ -58,7 +58,7 @@ export default function RegisterPage() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Card className="w-[400px]">
+      <Card className="w-[400px] shadow-2xl border-none">
         <CardHeader className="text-center mb-2">
           <CardTitle className="text-2xl">FinSync</CardTitle>
           <CardDescription>Manage your finances efficiently</CardDescription>
@@ -68,14 +68,14 @@ export default function RegisterPage() {
             <div className="flex flex-col space-y-1.5">
               <CustomInput
                 {...register("fullName")}
-                placeholder="Full name"
+                placeholder="Enter your full name"
                 error={errors.fullName?.message}
               />
             </div>
             <div className="flex flex-col space-y-1.5">
               <CustomInput
                 {...register("email")}
-                placeholder="Email address"
+                placeholder="Enter your email"
                 error={errors.email?.message}
               />
             </div>
@@ -83,7 +83,7 @@ export default function RegisterPage() {
               <CustomInput
                 {...register("password")}
                 type="password"
-                placeholder="Password"
+                placeholder="Create a password"
                 error={errors.password?.message}
               />
             </div>
@@ -91,7 +91,7 @@ export default function RegisterPage() {
               <CustomInput
                 {...register("confirmPassword")}
                 type="password"
-                placeholder="Confirm password"
+                placeholder="Confirm your password"
                 error={errors.confirmPassword?.message}
               />
             </div>
@@ -107,14 +107,14 @@ export default function RegisterPage() {
             {isPending ? (
               <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
             ) : (
-              "Register"
+              "Create Account"
             )}
           </Button>
           <div className="text-sm text-muted-foreground">
             <span>Already have an account?</span>
             {"  "}
             <NextLink href="/auth/login" className="underline">
-              Login
+              Sign in
             </NextLink>
           </div>
         </CardFooter>

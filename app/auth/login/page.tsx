@@ -48,7 +48,7 @@ export default function LoginPage() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Card className="w-[400px]">
+      <Card className="w-[400px] shadow-2xl border-none">
         <CardHeader className="text-center mb-2">
           <CardTitle className="text-2xl">FinSync</CardTitle>
           <CardDescription>Manage your finances efficiently</CardDescription>
@@ -58,7 +58,7 @@ export default function LoginPage() {
             <div className="flex flex-col space-y-1.5">
               <CustomInput
                 {...register("email")}
-                placeholder="Email address"
+                placeholder="Enter your email"
                 error={errors.email?.message}
               />
             </div>
@@ -66,7 +66,7 @@ export default function LoginPage() {
               <CustomInput
                 {...register("password")}
                 type="password"
-                placeholder="Password"
+                placeholder="Enter your password"
                 error={errors.password?.message}
               />
             </div>
@@ -82,7 +82,7 @@ export default function LoginPage() {
             {isPending ? (
               <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
             ) : (
-              "Login"
+              "Sign in"
             )}
           </Button>
           <div className="text-sm text-muted-foreground">
