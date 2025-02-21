@@ -16,18 +16,20 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { CustomInput } from "@/components/ui/custom-input";
-import { login } from "@/lib/actions/auth";
-import { signInSchema } from "@/lib/validations";
+import { signUp } from "@/lib/actions/auth";
+import { signUpSchema } from "@/lib/validations";
 import { useToast } from "@/hooks/use-toast";
+import { redirect } from "next/navigation";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<z.infer<typeof signInSchema>>({
-    resolver: zodResolver(signInSchema),
+  } = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
+      fullName: "",
       email: "",
       password: "",
     },
@@ -37,10 +39,20 @@ export default function LoginPage() {
 
   const [isPending, startTransition] = useTransition();
 
-  const onSubmit = async (data: z.infer<typeof signInSchema>) => {
+  const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     startTransition(async () => {
-      const { error } = await login(data);
-      toast({ title: error, variant: "destructive", duration: 2500 });
+      const { isConfirmationSent, error } = await signUp(data);
+      if (isConfirmationSent) {
+        toast({
+          title: "Please check your email to confirm your account",
+          variant: "success",
+          duration: 2500,
+        });
+        redirect("/auth/login");
+      }
+      if (error) {
+        toast({ title: error, variant: "destructive", duration: 2500 });
+      }
     });
   };
 
@@ -53,6 +65,13 @@ export default function LoginPage() {
         </CardHeader>
         <CardContent>
           <div className="grid w-full items-center gap-4">
+            <div className="flex flex-col space-y-1.5">
+              <CustomInput
+                {...register("fullName")}
+                placeholder="Full name"
+                error={errors.fullName?.message}
+              />
+            </div>
             <div className="flex flex-col space-y-1.5">
               <CustomInput
                 {...register("email")}
@@ -68,6 +87,14 @@ export default function LoginPage() {
                 error={errors.password?.message}
               />
             </div>
+            <div className="flex flex-col space-y-1.5">
+              <CustomInput
+                {...register("confirmPassword")}
+                type="password"
+                placeholder="Confirm password"
+                error={errors.confirmPassword?.message}
+              />
+            </div>
           </div>
         </CardContent>
         <CardFooter className="px-6 flex-col">
@@ -80,14 +107,14 @@ export default function LoginPage() {
             {isPending ? (
               <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
             ) : (
-              "Login"
+              "Register"
             )}
           </Button>
           <div className="text-sm text-muted-foreground">
-            <span>Don&apos;t have an account?</span>
+            <span>Already have an account?</span>
             {"  "}
-            <NextLink href="/auth/register" className="underline">
-              Register
+            <NextLink href="/auth/login" className="underline">
+              Login
             </NextLink>
           </div>
         </CardFooter>

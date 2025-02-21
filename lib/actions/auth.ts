@@ -4,9 +4,20 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/utils/supabase/server";
-import { signInSchema } from "@/lib/validations";
+import { signInSchema, signUpSchema } from "@/lib/validations";
 
-export async function login(formData: { email: string; password: string }) {
+type SignIn = {
+  email: string;
+  password: string;
+};
+
+type SignUp = {
+  fullName: string;
+  email: string;
+  password: string;
+};
+
+export async function signIn(formData: SignIn) {
   const supabase = await createClient();
 
   const result = signInSchema.safeParse(formData);
@@ -30,25 +41,33 @@ export async function login(formData: { email: string; password: string }) {
   redirect("/");
 }
 
-export async function signup(formData: FormData) {
+export async function signUp(formData: SignUp) {
   const supabase = await createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
+  const result = signUpSchema.safeParse(formData);
+
+  if (!result.success) {
+    return { error: "Form data is invalid" };
+  }
+
   const data = {
-    email: formData.get("email") as string,
-    password: formData.get("password") as string,
+    email: result.data.email,
+    password: result.data.password,
     options: {
       data: {
-        fullName: formData.get("fullName") as string,
+        fullName: result.data.fullName,
       },
     },
   };
 
-  const { error } = await supabase.auth.signUp(data);
+  const { error, data: resData } = await supabase.auth.signUp(data);
+
+  if (resData.user) {
+    return { isConfirmationSent: true };
+  }
 
   if (error) {
-    redirect("/error");
+    return { error: "Something went wrong" };
   }
 
   revalidatePath("/", "layout");
