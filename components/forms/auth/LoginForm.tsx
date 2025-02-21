@@ -1,6 +1,11 @@
 "use client";
+
 import NextLink from "next/link";
 import { useTransition } from "react";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,17 +15,37 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { CustomInput } from "@/components/ui/custom-input";
 import { login } from "@/lib/actions/auth";
+import { signInSchema } from "@/lib/validations";
+import { useToast } from "@/hooks/use-toast";
 
 export default function LoginPage() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<z.infer<typeof signInSchema>>({
+    resolver: zodResolver(signInSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const { toast } = useToast();
+
   const [isPending, startTransition] = useTransition();
-  const onSubmit = async (formData: FormData) => {
-    startTransition(() => login(formData));
+
+  const onSubmit = async (data: z.infer<typeof signInSchema>) => {
+    startTransition(async () => {
+      const { error } = await login(data);
+      toast({ title: error, variant: "destructive", duration: 2500 });
+    });
   };
 
   return (
-    <form action={onSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Card className="w-[400px]">
         <CardHeader className="text-center mb-2">
           <CardTitle className="text-2xl">FinSync</CardTitle>
@@ -29,21 +54,18 @@ export default function LoginPage() {
         <CardContent>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                required
+              <CustomInput
+                {...register("email")}
                 placeholder="Email address"
+                error={errors.email?.message}
               />
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Input
-                id="password"
-                name="password"
-                placeholder="Password"
-                required
+              <CustomInput
+                {...register("password")}
                 type="password"
+                placeholder="Password"
+                error={errors.password?.message}
               />
             </div>
           </div>
