@@ -1,11 +1,13 @@
 "use client";
 
 import { signOut } from "@/lib/actions/auth";
+import { LogOut } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <>
-      <button onClick={signOut}>Sign out</button>
-    </>
+    <Button onClick={signOut} variant="outline" size="icon">
+      <LogOut size={24} />
+    </Button>
   );
 }

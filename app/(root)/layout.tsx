@@ -1,9 +1,13 @@
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/utils/supabase/server";
-import SignOutBtn from "@/components/auth/SignOutBtn";
+import Header from "@/components/layout/Header";
 
-export default async function Home() {
+export default async function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   const supabase = await createClient();
 
   const { data, error } = await supabase.auth.getUser();
@@ -13,9 +17,9 @@ export default async function Home() {
   }
 
   return (
-    <>
-      <p>Hello {data.user.user_metadata.fullName}</p>
-      <SignOutBtn />
-    </>
+    <main>
+      <Header />
+      {children}
+    </main>
   );
 }
