@@ -14,7 +14,7 @@ const Header = async () => {
           <div className="text-stone-800 mr-4">
             Welcome,{" "}
             <span className="font-semibold">
-              {data?.user?.user_metadata.fullName}{" "}
+              {data?.user?.user_metadata.fullName}
             </span>
           </div>
           <SignOutBtn />
