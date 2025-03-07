@@ -1,9 +1,10 @@
-import { Button } from "@/components/ui/button";
-import { categories } from "@/utils/categories";
 import { createClient } from "@/utils/supabase/server";
 import { DynamicIcon, type IconName } from "lucide-react/dynamic";
 import { clsx } from "clsx";
+
 import { GroupedData, TransactionType } from "@/types";
+import { categories } from "@/utils/categories";
+import TransactionModal from "@/components/transactions/TransactionModal";
 
 const Home = async () => {
   const supabase = await createClient();
@@ -56,9 +57,7 @@ const Home = async () => {
       <div className="p-4 bg-white rounded shadow-lg">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Transactions</h2>
-          <Button variant="outline" color="blue">
-            + Add Transaction
-          </Button>
+          <TransactionModal />
         </div>
         {Object.entries(groupedData)?.map(([date, data], idx) => (
           <div key={idx} className="mb-4 last:mb-0">
