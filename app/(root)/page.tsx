@@ -16,6 +16,8 @@ const Home = async () => {
     .lt("date", "2026-01-01")
     .order("date", { ascending: false });
 
+  const { data: categoryList } = await supabase.from("categories").select("*");
+
   if (!data || error) return;
 
   const groupedData: GroupedData = data.reduce((acc: GroupedData, item) => {
@@ -57,7 +59,7 @@ const Home = async () => {
       <div className="p-4 bg-white rounded shadow-lg">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Transactions</h2>
-          <TransactionModal />
+          <TransactionModal categories={categoryList} />
         </div>
         {Object.entries(groupedData)?.map(([date, data], idx) => (
           <div key={idx} className="mb-4 last:mb-0">

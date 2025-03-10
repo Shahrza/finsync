@@ -28,3 +28,16 @@ export const signUpSchema = z
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
+
+export const transactionSchema = z.object({
+  type: z.enum(["expense", "income"]),
+  category_id: z.string().nonempty("Category is required"),
+  amount: z
+    .string()
+    .nonempty("Amount is required")
+    .regex(/^\d+(\.\d{1,2})?$/, "Invalid amount"),
+  date: z.date().refine((date) => !isNaN(date.getTime()), {
+    message: "Invalid date",
+  }),
+  note: z.string().optional(),
+});

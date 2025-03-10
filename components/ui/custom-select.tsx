@@ -7,6 +7,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import InputError from "@/components/ui/input-error";
 
 export interface SelectOption {
   value: string;
@@ -23,6 +24,7 @@ interface CustomSelectProps {
   value?: string;
   defaultValue?: string;
   id?: string;
+  error?: string;
 }
 
 const CustomSelect = React.forwardRef<HTMLButtonElement, CustomSelectProps>(
@@ -37,6 +39,7 @@ const CustomSelect = React.forwardRef<HTMLButtonElement, CustomSelectProps>(
       value,
       defaultValue,
       id,
+      error,
       ...props
     },
     ref
@@ -65,6 +68,7 @@ const CustomSelect = React.forwardRef<HTMLButtonElement, CustomSelectProps>(
             ))}
           </SelectContent>
         </Select>
+        <InputError error={error} />
       </div>
     );
   }

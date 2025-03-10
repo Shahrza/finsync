@@ -1,6 +1,7 @@
 import * as React from "react";
-import { Label } from "./label";
-import { Input } from "./input";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import InputError from "@/components/ui/input-error";
 
 const CustomInput = React.forwardRef<
   HTMLInputElement,
@@ -10,7 +11,7 @@ const CustomInput = React.forwardRef<
     <>
       {label && <Label className="mb-2">{label}</Label>}
       <Input data-1p-ignore ref={ref} {...props} />
-      {error && <span className="text-red-500 text-sm ml-3">{error}</span>}
+      <InputError error={error} />
     </>
   );
 });
