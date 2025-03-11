@@ -1,7 +1,7 @@
 "use client";
 
 import NextLink from "next/link";
-import { useTransition } from "react";
+import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -37,23 +37,23 @@ export default function RegisterPage() {
 
   const { toast } = useToast();
 
-  const [isPending, startTransition] = useTransition();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
-    startTransition(async () => {
-      const { isConfirmationSent, error } = await signUp(data);
-      if (isConfirmationSent) {
-        toast({
-          title: "Please check your email to confirm your account",
-          variant: "success",
-          duration: 2500,
-        });
-        redirect("/auth/login");
-      }
-      if (error) {
-        toast({ title: error, variant: "destructive", duration: 2500 });
-      }
-    });
+    setIsLoading(true);
+    const { isConfirmationSent, error } = await signUp(data);
+    if (isConfirmationSent) {
+      toast({
+        title: "Please check your email to confirm your account",
+        variant: "success",
+        duration: 2500,
+      });
+      redirect("/auth/login");
+    }
+    if (error) {
+      toast({ title: error, variant: "destructive", duration: 2500 });
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -102,13 +102,9 @@ export default function RegisterPage() {
             size="block"
             className="text-md font-semibold mb-4"
             type="submit"
-            disabled={isPending}
+            loading={isLoading}
           >
-            {isPending ? (
-              <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
-            ) : (
-              "Create Account"
-            )}
+            Create Account
           </Button>
           <div className="text-sm text-muted-foreground">
             <span>Already have an account?</span>

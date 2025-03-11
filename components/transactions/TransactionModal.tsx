@@ -201,12 +201,8 @@ const TransactionModal = ({ categories }: Props) => {
             </div>
             <Separator className="my-4" />
             <DialogFooter>
-              <Button type="submit" size="block" disabled={isLoading}>
-                {isLoading ? (
-                  <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
-                ) : (
-                  "Save Transaction"
-                )}
+              <Button type="submit" size="block" loading={isLoading}>
+                Save Transaction
               </Button>
             </DialogFooter>
           </form>

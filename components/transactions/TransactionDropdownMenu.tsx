@@ -98,7 +98,7 @@ export const TransactionDropdownMenu = ({ id }: { id: string }) => {
           <Button
             onClick={handleDelete}
             type="submit"
-            disabled={isLoading}
+            loading={isLoading}
             className="bg-red-600"
           >
             Delete

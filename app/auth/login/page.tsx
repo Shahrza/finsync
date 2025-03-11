@@ -1,7 +1,7 @@
 "use client";
 
 import NextLink from "next/link";
-import { useTransition } from "react";
+import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -35,15 +35,15 @@ export default function LoginPage() {
 
   const { toast } = useToast();
 
-  const [isPending, startTransition] = useTransition();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
-    startTransition(async () => {
-      const { error } = await signIn(data);
-      if (error) {
-        toast({ title: error, variant: "destructive", duration: 2500 });
-      }
-    });
+    setIsLoading(true);
+    const { error } = await signIn(data);
+    if (error) {
+      toast({ title: error, variant: "destructive", duration: 2500 });
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -77,13 +77,9 @@ export default function LoginPage() {
             size="block"
             className="text-md font-semibold mb-4"
             type="submit"
-            disabled={isPending}
+            loading={isLoading}
           >
-            {isPending ? (
-              <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
-            ) : (
-              "Sign in"
-            )}
+            Sign in
           </Button>
           <div className="text-sm text-muted-foreground">
             <span>Don&apos;t have an account?</span>
