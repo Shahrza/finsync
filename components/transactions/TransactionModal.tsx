@@ -13,7 +13,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
-import { useTransition } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -48,12 +47,12 @@ const TransactionModal = ({ categories }: Props) => {
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const types = [
     { value: "expense", label: "Expense" },
     { value: "income", label: "Income" },
   ];
-  const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof transactionSchema>>({
     resolver: zodResolver(transactionSchema),
@@ -72,21 +71,26 @@ const TransactionModal = ({ categories }: Props) => {
   };
 
   const onSubmit = async (formData: z.infer<typeof transactionSchema>) => {
-    startTransition(async () => {
+    setIsLoading(true);
+    try {
       formData.amount = String(Math.abs(Number(formData.amount)));
       const { error } = await addTransaction(formData);
       if (error) {
-        toast({
-          title: "Error",
-          variant: "destructive",
-          duration: 2500,
-        });
-        return;
+        throw error;
       }
       onOpenChange();
       toast({ title: "Success", variant: "success", duration: 2500 });
       router.refresh();
-    });
+    } catch (e) {
+      toast({
+        title: "Error",
+        variant: "destructive",
+        duration: 2500,
+      });
+      throw e;
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const type = form.watch("type");
@@ -197,8 +201,8 @@ const TransactionModal = ({ categories }: Props) => {
             </div>
             <Separator className="my-4" />
             <DialogFooter>
-              <Button type="submit" size="block" disabled={isPending}>
-                {isPending ? (
+              <Button type="submit" size="block" disabled={isLoading}>
+                {isLoading ? (
                   <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
                 ) : (
                   "Save Transaction"

@@ -5,6 +5,7 @@ import { clsx } from "clsx";
 import { GroupedData, TransactionType } from "@/types";
 import { categories } from "@/utils/categories";
 import TransactionModal from "@/components/transactions/TransactionModal";
+import { TransactionDropdownMenu } from "@/components/transactions/TransactionDropdownMenu";
 
 const Home = async () => {
   const supabase = await createClient();
@@ -98,16 +99,17 @@ const Home = async () => {
                       </div>
                     </div>
                   </div>
-                  <div className="text-right">
+                  <div className="text-right flex items-center">
                     <div
                       className={`${
                         t.type === TransactionType.Income
                           ? "text-green-600"
                           : "text-red-600"
-                      } font-semibold`}
+                      } font-semibold mr-4`}
                     >
                       {t.amount.toFixed(2)} $
                     </div>
+                    <TransactionDropdownMenu id={t.id} />
                   </div>
                 </div>
               </div>
