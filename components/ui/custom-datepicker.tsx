@@ -11,7 +11,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Label } from "@/components/ui/label";
 import InputError from "@/components/ui/input-error";
 
 export interface CustomDatePickerProps {
@@ -25,6 +24,7 @@ export interface CustomDatePickerProps {
   calendarClassName?: string;
   id?: string;
   disabled?: boolean;
+  disabledDate?: (date: Date) => boolean;
   error?: string;
 }
 
@@ -37,13 +37,13 @@ const CustomDatePicker = React.forwardRef<
       selectedDate,
       onSelectDate,
       placeholder = "Pick a date",
-      label,
       className,
       buttonClassName,
       popoverClassName,
       calendarClassName,
       id,
       disabled,
+      disabledDate,
       error,
       ...props
     },
@@ -52,7 +52,6 @@ const CustomDatePicker = React.forwardRef<
     const [open, setOpen] = React.useState(false);
     return (
       <div className={cn("flex flex-col gap-2", className)}>
-        {label && <Label htmlFor={id}>{label}</Label>}
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
@@ -87,7 +86,7 @@ const CustomDatePicker = React.forwardRef<
               }}
               initialFocus
               className={calendarClassName}
-              disabled={disabled}
+              disabled={disabledDate}
               {...props}
             />
           </PopoverContent>

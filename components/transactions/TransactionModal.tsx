@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import {
@@ -18,12 +19,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
 
-import { CustomInput } from "@/components/ui/custom-input";
-import { CustomSelect } from "@/components/ui/custom-select";
-import { CustomDatePicker } from "@/components/ui/custom-datepicker";
+import { Form, FormControl } from "@/components/ui/form";
+import CustomFormField, {
+  FormFieldType,
+} from "@/components/ui/custom-form-field";
 import { transactionSchema } from "@/lib/validations";
 import { addTransaction } from "@/lib/actions/transactions";
 import { TransactionType } from "@/types";
+import { SelectItem } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 
 type Category = {
   id: string;
@@ -40,6 +45,7 @@ type Props = {
 
 const TransactionModal = ({ categories }: Props) => {
   const { toast } = useToast();
+  const router = useRouter();
 
   const [open, setOpen] = useState(false);
 
@@ -49,13 +55,7 @@ const TransactionModal = ({ categories }: Props) => {
   ];
   const [isPending, startTransition] = useTransition();
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors },
-  } = useForm<z.infer<typeof transactionSchema>>({
+  const form = useForm<z.infer<typeof transactionSchema>>({
     resolver: zodResolver(transactionSchema),
     defaultValues: {
       type: TransactionType.Expense,
@@ -65,6 +65,11 @@ const TransactionModal = ({ categories }: Props) => {
       note: "",
     },
   });
+
+  const onOpenChange = () => {
+    setOpen(!open);
+    form.reset();
+  };
 
   const onSubmit = async (formData: z.infer<typeof transactionSchema>) => {
     startTransition(async () => {
@@ -78,12 +83,13 @@ const TransactionModal = ({ categories }: Props) => {
         });
         return;
       }
-      setOpen(false);
+      onOpenChange();
       toast({ title: "Success", variant: "success", duration: 2500 });
+      router.refresh();
     });
   };
 
-  const type = watch("type");
+  const type = form.watch("type");
 
   const categoryList = useMemo(() => {
     if (!categories?.length) return [];
@@ -97,8 +103,10 @@ const TransactionModal = ({ categories }: Props) => {
       }));
   }, [categories, type]);
 
+  const today = new Date();
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button onClick={() => setOpen(true)} variant="outline">
           <Plus />
@@ -110,58 +118,95 @@ const TransactionModal = ({ categories }: Props) => {
           <DialogTitle>New Transaction</DialogTitle>
         </DialogHeader>
         <Separator />
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="grid gap-4">
-            <div className="grid grid-cols-1 items-center">
-              <CustomSelect
-                error={errors.type?.message}
-                options={types}
-                label="Type"
-                defaultValue="expense"
-                onValueChange={(value) =>
-                  setValue("type", value as TransactionType)
-                }
-              />
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="grid gap-4">
+              <div className="grid grid-cols-1 items-center mt-2">
+                <CustomFormField
+                  fieldType={FormFieldType.SKELETON}
+                  control={form.control}
+                  name="type"
+                  renderSkeleton={(field) => (
+                    <FormControl>
+                      <RadioGroup
+                        className="flex"
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        {types.map((option) => (
+                          <div
+                            key={option.value}
+                            className="flex items-center space-x-3 space-y-0"
+                          >
+                            <RadioGroupItem
+                              value={option.value}
+                              id={option.value}
+                            />
+                            <Label
+                              htmlFor={option.value}
+                              className="cursor-pointer"
+                            >
+                              {option.label}
+                            </Label>
+                          </div>
+                        ))}
+                      </RadioGroup>
+                    </FormControl>
+                  )}
+                />
+              </div>
+              <div className="grid grid-cols-1 items-center">
+                <CustomFormField
+                  fieldType={FormFieldType.INPUT}
+                  control={form.control}
+                  name="amount"
+                  label="Amount"
+                />
+              </div>
+              <div className="grid grid-cols-1 items-center">
+                <CustomFormField
+                  fieldType={FormFieldType.SELECT}
+                  control={form.control}
+                  name="category_id"
+                  label="Category"
+                >
+                  {categoryList.map((item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </CustomFormField>
+              </div>
+              <div className="grid grid-cols-1 items-center">
+                <CustomFormField
+                  fieldType={FormFieldType.DATE_PICKER}
+                  control={form.control}
+                  disabledDate={(date: Date) => date > today}
+                  name="date"
+                  label="Date"
+                />
+              </div>
+              <div className="grid grid-cols-1 items-center">
+                <CustomFormField
+                  fieldType={FormFieldType.INPUT}
+                  control={form.control}
+                  name="note"
+                  label="Description"
+                />
+              </div>
             </div>
-            <div className="grid grid-cols-1 items-center">
-              <CustomInput
-                {...register("amount")}
-                error={errors.amount?.message}
-                label="Amount"
-                type="number"
-              />
-            </div>
-            <div className="grid grid-cols-1 items-center">
-              <CustomSelect
-                onValueChange={(value) => setValue("category_id", value)}
-                error={errors.category_id?.message}
-                options={categoryList}
-                label="Category"
-              />
-            </div>
-            <div className="grid grid-cols-1 items-center">
-              <CustomDatePicker
-                selectedDate={watch("date")}
-                onSelectDate={(date) => setValue("date", date as Date)}
-                error={errors.date?.message}
-                label="Date"
-              />
-            </div>
-            <div className="grid grid-cols-1 items-center">
-              <CustomInput {...register("note")} label="Description" />
-            </div>
-          </div>
-          <Separator className="my-4" />
-          <DialogFooter>
-            <Button type="submit" size="block" disabled={isPending}>
-              {isPending ? (
-                <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
-              ) : (
-                "Save Transaction"
-              )}
-            </Button>
-          </DialogFooter>
-        </form>
+            <Separator className="my-4" />
+            <DialogFooter>
+              <Button type="submit" size="block" disabled={isPending}>
+                {isPending ? (
+                  <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
+                ) : (
+                  "Save Transaction"
+                )}
+              </Button>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );
