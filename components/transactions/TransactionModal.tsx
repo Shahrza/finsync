@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
@@ -23,11 +23,16 @@ import CustomFormField, {
   FormFieldType,
 } from "@/components/ui/custom-form-field";
 import { transactionSchema } from "@/lib/validations";
-import { addTransaction } from "@/lib/actions/transactions";
+import {
+  getTransaction,
+  addTransaction,
+  updateTransaction,
+} from "@/lib/actions/transactions";
 import { TransactionType } from "@/types";
 import { SelectItem } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import useTransactions from "@/store/useTransactions";
 
 type Category = {
   id: string;
@@ -45,6 +50,7 @@ type Props = {
 const TransactionModal = ({ categories }: Props) => {
   const { toast } = useToast();
   const router = useRouter();
+  const { editingTransactionId, setEditingTransactionId } = useTransactions();
 
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -60,13 +66,24 @@ const TransactionModal = ({ categories }: Props) => {
       type: TransactionType.Expense,
       category_id: "",
       amount: "",
-      date: new Date(),
+      date: new Date().toISOString(),
       note: "",
     },
   });
 
+  useEffect(() => {
+    if (!editingTransactionId) return;
+    (async () => {
+      const { data } = await getTransaction(editingTransactionId);
+      data.amount = String(data.amount);
+      form.reset(data);
+      setOpen(true);
+    })();
+  }, [editingTransactionId, form]);
+
   const onOpenChange = () => {
     setOpen(!open);
+    setEditingTransactionId("");
     form.reset();
   };
 
@@ -74,6 +91,19 @@ const TransactionModal = ({ categories }: Props) => {
     setIsLoading(true);
     try {
       formData.amount = String(Math.abs(Number(formData.amount)));
+      if (editingTransactionId) {
+        const { error } = await updateTransaction(
+          editingTransactionId,
+          formData
+        );
+        if (error) {
+          throw error;
+        }
+        onOpenChange();
+        toast({ title: "Success", variant: "success", duration: 2500 });
+        router.refresh();
+        return;
+      }
       const { error } = await addTransaction(formData);
       if (error) {
         throw error;
@@ -119,7 +149,9 @@ const TransactionModal = ({ categories }: Props) => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]" aria-describedby={undefined}>
         <DialogHeader>
-          <DialogTitle>New Transaction</DialogTitle>
+          <DialogTitle>
+            {editingTransactionId ? "Edit" : "New"} Transaction
+          </DialogTitle>
         </DialogHeader>
         <Separator />
         <Form {...form}>

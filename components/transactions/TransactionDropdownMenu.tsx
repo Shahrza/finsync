@@ -22,13 +22,24 @@ import {
   DialogFooter,
   DialogHeader,
 } from "../ui/dialog";
+import useTransactions from "@/store/useTransactions";
 
-export const TransactionDropdownMenu = ({ id }: { id: string }) => {
+type Props = {
+  id: string;
+};
+
+export const TransactionDropdownMenu = ({ id }: Props) => {
   const supabase = createClient();
   const router = useRouter();
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const { setEditingTransactionId } = useTransactions();
+
+  async function handleEdit(id: string) {
+    setEditingTransactionId(id);
+  }
 
   async function handleDelete() {
     setIsLoading(true);
@@ -66,7 +77,7 @@ export const TransactionDropdownMenu = ({ id }: { id: string }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuGroup>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleEdit(id)}>
               Edit
               <DropdownMenuShortcut>
                 <Pencil size={16} />

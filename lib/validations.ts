@@ -36,8 +36,6 @@ export const transactionSchema = z.object({
     .string()
     .nonempty("Amount is required")
     .regex(/^\d+(\.\d{1,2})?$/, "Invalid amount"),
-  date: z.date().refine((date) => !isNaN(date.getTime()), {
-    message: "Invalid date",
-  }),
+  date: z.string().nonempty("Date is required"),
   note: z.string().optional(),
 });

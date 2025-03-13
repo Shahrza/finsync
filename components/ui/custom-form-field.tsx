@@ -14,6 +14,7 @@ import { Input } from "./input";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./select";
 import { Textarea } from "./textarea";
 import { RadioGroup } from "./radio-group";
+import { format } from "date-fns";
 
 export enum FormFieldType {
   INPUT = "input",
@@ -91,7 +92,9 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
         <FormControl>
           <CustomDatePicker
             selectedDate={field.value}
-            onSelectDate={(date) => field.onChange(date)}
+            onSelectDate={(date) =>
+              field.onChange(date ? format(date, "MM-dd-yyyy") : date)
+            }
             label={props.label}
             placeholder={props.placeholder}
             disabled={props.disabled}
