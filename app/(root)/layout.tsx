@@ -1,16 +1,14 @@
 import { redirect } from "next/navigation";
 
-import { createClient } from "@/utils/supabase/server";
 import Header from "@/components/layout/Header";
+import { getUser } from "@/lib/actions/auth";
 
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const supabase = await createClient();
-
-  const { data, error } = await supabase.auth.getUser();
+  const { data, error } = await getUser();
 
   if (error || !data?.user) {
     redirect("/auth/login");
@@ -18,7 +16,7 @@ export default async function RootLayout({
 
   return (
     <main>
-      <Header />
+      <Header fullName={data?.user?.user_metadata.fullName} />
       {children}
     </main>
   );

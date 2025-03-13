@@ -27,7 +27,7 @@ import {
   getTransaction,
   addTransaction,
   updateTransaction,
-} from "@/lib/actions/transactions";
+} from "@/lib/actions/transaction";
 import { TransactionType } from "@/types";
 import { SelectItem } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";

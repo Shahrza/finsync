@@ -1,4 +1,3 @@
-import { createClient } from "@/utils/supabase/server";
 import { DynamicIcon, type IconName } from "lucide-react/dynamic";
 import { clsx } from "clsx";
 
@@ -6,18 +5,13 @@ import { GroupedData, TransactionType } from "@/types";
 import { categories } from "@/utils/categories";
 import TransactionModal from "@/components/transactions/TransactionModal";
 import { TransactionDropdownMenu } from "@/components/transactions/TransactionDropdownMenu";
+import { getTransactions } from "@/lib/actions/transaction";
+import { getCategories } from "@/lib/actions/category";
 
 const Home = async () => {
-  const supabase = await createClient();
+  const { data, error } = await getTransactions();
 
-  const { data, error } = await supabase
-    .from("transactions")
-    .select(`id,amount,type,note,date,category:categories(name,value)`)
-    .gte("date", `2025-01-01`)
-    .lt("date", "2026-01-01")
-    .order("date", { ascending: false });
-
-  const { data: categoryList } = await supabase.from("categories").select("*");
+  const { data: categoryList } = await getCategories();
 
   if (!data || error) return;
 
