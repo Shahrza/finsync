@@ -38,6 +38,7 @@ interface CustomProps {
   children?: React.ReactNode;
   renderSkeleton?: (field: any) => React.ReactNode;
   fieldType: FormFieldType;
+  type?: "text" | "email" | "password" | "number";
   disabledDate?: (date: Date) => boolean;
 }
 
@@ -48,6 +49,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
         <FormControl>
           <Input
             placeholder={props.placeholder}
+            type={props.type}
             {...field}
             className="shad-input"
           />

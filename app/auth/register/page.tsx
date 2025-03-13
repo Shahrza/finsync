@@ -15,23 +15,23 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { CustomInput } from "@/components/ui/custom-input";
 import { signUp } from "@/lib/actions/auth";
 import { signUpSchema } from "@/lib/validations";
 import { useToast } from "@/hooks/use-toast";
 import { redirect } from "next/navigation";
+import { Form } from "@/components/ui/form";
+import CustomFormField, {
+  FormFieldType,
+} from "@/components/ui/custom-form-field";
 
 export default function RegisterPage() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<z.infer<typeof signUpSchema>>({
+  const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       fullName: "",
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
@@ -57,64 +57,70 @@ export default function RegisterPage() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Card className="w-[400px] shadow-2xl border-none">
-        <CardHeader className="text-center mb-2">
-          <CardTitle className="text-2xl">FinSync</CardTitle>
-          <CardDescription>Manage your finances efficiently</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <CustomInput
-                {...register("fullName")}
-                placeholder="Enter your full name"
-                error={errors.fullName?.message}
-              />
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <Card className="w-[400px] shadow-2xl border-none">
+          <CardHeader className="text-center mb-2">
+            <CardTitle className="text-2xl">FinSync</CardTitle>
+            <CardDescription>Manage your finances efficiently</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid w-full items-center gap-4">
+              <div className="flex flex-col space-y-1.5">
+                <CustomFormField
+                  fieldType={FormFieldType.INPUT}
+                  control={form.control}
+                  name="fullName"
+                  placeholder="Enter your full name"
+                />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <CustomFormField
+                  fieldType={FormFieldType.INPUT}
+                  control={form.control}
+                  name="email"
+                  placeholder="Enter your email"
+                />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <CustomFormField
+                  fieldType={FormFieldType.INPUT}
+                  control={form.control}
+                  name="password"
+                  type="password"
+                  placeholder="Create a password"
+                />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <CustomFormField
+                  fieldType={FormFieldType.INPUT}
+                  control={form.control}
+                  name="confirmPassword"
+                  type="password"
+                  placeholder="Confirm your password"
+                />
+              </div>
             </div>
-            <div className="flex flex-col space-y-1.5">
-              <CustomInput
-                {...register("email")}
-                placeholder="Enter your email"
-                error={errors.email?.message}
-              />
+          </CardContent>
+          <CardFooter className="px-6 flex-col">
+            <Button
+              size="block"
+              className="text-md font-semibold mb-4"
+              type="submit"
+              loading={isLoading}
+            >
+              Create Account
+            </Button>
+            <div className="text-sm text-muted-foreground">
+              <span>Already have an account?</span>
+              {"  "}
+              <NextLink href="/auth/login" className="underline">
+                Sign in
+              </NextLink>
             </div>
-            <div className="flex flex-col space-y-1.5">
-              <CustomInput
-                {...register("password")}
-                type="password"
-                placeholder="Create a password"
-                error={errors.password?.message}
-              />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <CustomInput
-                {...register("confirmPassword")}
-                type="password"
-                placeholder="Confirm your password"
-                error={errors.confirmPassword?.message}
-              />
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter className="px-6 flex-col">
-          <Button
-            size="block"
-            className="text-md font-semibold mb-4"
-            type="submit"
-            loading={isLoading}
-          >
-            Create Account
-          </Button>
-          <div className="text-sm text-muted-foreground">
-            <span>Already have an account?</span>
-            {"  "}
-            <NextLink href="/auth/login" className="underline">
-              Sign in
-            </NextLink>
-          </div>
-        </CardFooter>
-      </Card>
-    </form>
+          </CardFooter>
+        </Card>
+      </form>
+    </Form>
   );
 }
