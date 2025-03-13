@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { EllipsisVertical, Pencil, Trash } from "lucide-react";
-import { createClient } from "@/utils/supabase/client";
+import { supabase } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -29,7 +29,6 @@ type Props = {
 };
 
 export const TransactionDropdownMenu = ({ id }: Props) => {
-  const supabase = createClient();
   const router = useRouter();
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
