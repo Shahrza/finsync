@@ -142,7 +142,7 @@ const TransactionModal = ({ categories }: Props) => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button onClick={() => setOpen(true)} variant="outline">
+        <Button onClick={() => setOpen(true)}>
           <Plus />
           Add Transaction
         </Button>
