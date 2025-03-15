@@ -1,9 +1,11 @@
 import { GroupedData, TransactionType } from "@/types";
-import TransactionModal from "@/components/transactions/TransactionModal";
 import { getTransactions } from "@/lib/actions/transaction";
 import { getCategories } from "@/lib/actions/category";
+
+import TransactionModal from "@/components/transactions/TransactionModal";
 import TransactionListItem from "@/components/transactions/TransactionListItem";
 import TransactionOverview from "@/components/transactions/TransactionOverview";
+import { Separator } from "@/components/ui/separator";
 
 const Home = async () => {
   const { data, error } = await getTransactions();
@@ -46,21 +48,29 @@ const Home = async () => {
   }, {});
 
   return (
-    <div className="container mx-auto px-4 mt-8">
+    <div className="container mx-auto px-4 py-8">
       <div className="p-4 bg-white rounded-lg shadow-lg">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Transactions</h2>
           <TransactionModal categories={categoryList} />
         </div>
+        <Separator className="my-4" />
         {Object.entries(groupedData)?.map(([date, data]) => (
-          <div key={date} className="mb-4 last:mb-0">
-            <TransactionOverview date={date} data={data} />
-            {data.transactions.map((transaction) => (
-              <TransactionListItem
-                key={transaction.id}
-                transaction={transaction}
-              />
-            ))}
+          <div key={date}>
+            <div className="mb-4 last:mb-0">
+              <TransactionOverview date={date} data={data} />
+              {data.transactions.map((transaction) => (
+                <TransactionListItem
+                  key={transaction.id}
+                  transaction={transaction}
+                />
+              ))}
+            </div>
+            {Object.keys(groupedData).length > 1 &&
+              Object.keys(groupedData).length - 1 !==
+                Object.keys(groupedData).indexOf(date) && (
+                <Separator className="mt-6 mb-4" />
+              )}
           </div>
         ))}
       </div>
