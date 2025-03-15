@@ -5,6 +5,7 @@ import { getCategories } from "@/lib/actions/category";
 import TransactionModal from "@/components/transactions/TransactionModal";
 import TransactionListItem from "@/components/transactions/TransactionListItem";
 import TransactionOverview from "@/components/transactions/TransactionOverview";
+import TransactionDailyOverview from "@/components/transactions/TransactionDailyOverview";
 import { Separator } from "@/components/ui/separator";
 
 const Home = async () => {
@@ -41,14 +42,25 @@ const Home = async () => {
     } else {
       acc[dayKey].expense += Math.abs(item.amount);
     }
-    acc[dayKey].net += item.amount;
+    acc[dayKey].net +=
+      item.type === TransactionType.Income ? item.amount : -item.amount;
     acc[dayKey].transactions.push(transaction);
 
     return acc;
   }, {});
 
+  const { income, expense, net } = structuredClone(
+    Object.values(groupedData)
+  ).reduce((acc, item) => {
+    acc.income += item.income;
+    acc.expense += item.expense;
+    acc.net += item.net;
+    return acc;
+  });
+
   return (
     <div className="container mx-auto px-4 py-8">
+      <TransactionOverview income={income} expense={expense} net={net} />
       <div className="p-4 bg-white rounded-lg shadow-lg">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Transactions</h2>
@@ -58,7 +70,7 @@ const Home = async () => {
         {Object.entries(groupedData)?.map(([date, data]) => (
           <div key={date}>
             <div className="mb-4 last:mb-0">
-              <TransactionOverview date={date} data={data} />
+              <TransactionDailyOverview date={date} data={data} />
               {data.transactions.map((transaction) => (
                 <TransactionListItem
                   key={transaction.id}
