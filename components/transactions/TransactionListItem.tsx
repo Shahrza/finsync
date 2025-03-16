@@ -12,7 +12,7 @@ const TransactionListItem = ({ transaction }: Props) => {
   return (
     <div
       key={transaction.id}
-      className="p-4 pr-2 rounded-lg bg-neutral-50 mb-4 lat:mb-0"
+      className="p-4 pr-2 rounded-lg bg-neutral-50 mb-4 lat:mb-0 dark:bg-zinc-800"
     >
       <div className="flex justify-between items-center">
         <div className="flex items-center font-semibold">
@@ -29,8 +29,10 @@ const TransactionListItem = ({ transaction }: Props) => {
             ></DynamicIcon>
           </div>
           <div>
-            <p className="text-gray-700">{transaction.category.name}</p>
-            <p className="text-sm text-gray-400 font-normal">
+            <p className="text-gray-700 dark:text-gray-100">
+              {transaction.category.name}
+            </p>
+            <p className="text-sm text-gray-400 font-normal dark:text-gray-100">
               {transaction.note}
             </p>
           </div>
@@ -40,7 +42,7 @@ const TransactionListItem = ({ transaction }: Props) => {
             className={`${
               transaction.type === TransactionType.Income
                 ? "text-emerald-500"
-                : "text-neutral-600"
+                : "text-neutral-600 dark:text-neutral-200"
             } font-semibold mr-2`}
           >
             {`${

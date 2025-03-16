@@ -5,7 +5,7 @@ import { signOut } from "@/lib/actions/auth";
 import { Loader2, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export default function Home() {
+export default function SignOutBtn(props: React.ComponentProps<typeof Button>) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSignOut = async () => {
@@ -20,6 +20,7 @@ export default function Home() {
       variant="outline"
       size="icon"
       disabled={isLoading}
+      {...props}
     >
       {isLoading ? <Loader2 className="animate-spin" /> : <LogOut size={24} />}
     </Button>

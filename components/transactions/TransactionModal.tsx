@@ -100,7 +100,11 @@ const TransactionModal = ({ categories }: Props) => {
           throw error;
         }
         onOpenChange();
-        toast({ title: "Success", variant: "success", duration: 2500 });
+        toast({
+          title: "Transaction updated",
+          variant: "success",
+          duration: 2500,
+        });
         router.refresh();
         return;
       }
@@ -109,7 +113,7 @@ const TransactionModal = ({ categories }: Props) => {
         throw error;
       }
       onOpenChange();
-      toast({ title: "Success", variant: "success", duration: 2500 });
+      toast({ title: "Transaction added", variant: "success", duration: 2500 });
       router.refresh();
     } catch (e) {
       toast({
@@ -142,7 +146,10 @@ const TransactionModal = ({ categories }: Props) => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button onClick={() => setOpen(true)} className="rounded-lg">
+        <Button
+          onClick={() => setOpen(true)}
+          className="rounded-lg dark:bg-zinc-200"
+        >
           <Plus />
           Add Transaction
         </Button>

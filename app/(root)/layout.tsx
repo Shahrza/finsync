@@ -15,7 +15,7 @@ export default async function RootLayout({
   }
 
   return (
-    <main className="min-h-screen bg-gray-100">
+    <main className="min-h-screen bg-gray-100 dark:bg-zinc-800">
       <Header fullName={data?.user?.user_metadata.fullName} />
       {children}
     </main>
