@@ -6,7 +6,7 @@ type Props = {
 
 const Header = async ({ fullName }: Props) => {
   return (
-    <div className="shadow-lg">
+    <div className="shadow-md bg-white">
       <div className="container mx-auto p-4 flex justify-between items-center">
         <div className="text-2xl text-stone-800 font-semibold">FinSync</div>
         <div className="flex items-center">

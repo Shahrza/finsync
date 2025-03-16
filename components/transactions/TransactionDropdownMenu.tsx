@@ -70,9 +70,9 @@ export const TransactionDropdownMenu = ({ id }: Props) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="icon">
+          <div className="cursor-pointer p-2 rounded-full hover:bg-neutral-100">
             <EllipsisVertical size={16} />
-          </Button>
+          </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuGroup>
