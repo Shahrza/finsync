@@ -16,8 +16,8 @@ const Header = async ({ fullName }: Props) => {
           <div className="text-stone-800 mr-4 dark:text-white">
             Welcome, <span className="font-semibold">{fullName}</span>
           </div>
-          <SignOutBtn className="mr-2 dark:border-stone-400" />
           <ModeToggle />
+          <SignOutBtn className="ml-2 dark:border-stone-400" />
         </div>
       </div>
     </div>
