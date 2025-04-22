@@ -9,7 +9,7 @@ export async function getTransactions() {
   const supabase = await createClient();
   const res = await supabase
     .from("transactions")
-    .select(`id,amount,type,note,date,category:categories(name,value)`)
+    .select(`id,user_id,amount,type,note,date,category:categories(name,value)`)
     .gte("date", `2025-01-01`)
     .lt("date", "2026-01-01")
     .order("date", { ascending: false });

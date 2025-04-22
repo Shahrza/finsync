@@ -38,4 +38,5 @@ export const transactionSchema = z.object({
     .regex(/^\d+(\.\d{1,2})?$/, "Invalid amount"),
   date: z.string().nonempty("Date is required"),
   note: z.string().optional(),
+  user_id: z.string().optional(),
 });

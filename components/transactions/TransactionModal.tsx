@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
@@ -33,6 +33,7 @@ import { SelectItem } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import useTransactions from "@/store/useTransactions";
+import { UserContext } from "@/context/userContext";
 
 type Category = {
   id: string;
@@ -54,6 +55,8 @@ const TransactionModal = ({ categories }: Props) => {
 
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const user = useContext(UserContext);
 
   const types = [
     { value: "expense", label: "Expense" },
@@ -90,12 +93,13 @@ const TransactionModal = ({ categories }: Props) => {
   const onSubmit = async (formData: z.infer<typeof transactionSchema>) => {
     setIsLoading(true);
     try {
+      const user_id = user?.id;
+      formData.user_id = user_id;
       formData.amount = String(Math.abs(Number(formData.amount)));
       if (editingTransactionId) {
-        const { error } = await updateTransaction(
-          editingTransactionId,
-          formData
-        );
+        const { error } = await updateTransaction(editingTransactionId, {
+          ...formData,
+        });
         if (error) {
           throw error;
         }

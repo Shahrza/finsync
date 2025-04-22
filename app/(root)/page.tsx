@@ -44,23 +44,26 @@ const Home = async () => {
     }
     acc[dayKey].net +=
       item.type === TransactionType.Income ? item.amount : -item.amount;
-    acc[dayKey].transactions.push(transaction);
+    acc[dayKey].transactions.unshift(transaction);
 
     return acc;
   }, {});
 
-  const { income, expense, net } = structuredClone(
-    Object.values(groupedData)
-  ).reduce((acc, item) => {
-    acc.income += item.income;
-    acc.expense += item.expense;
-    acc.net += item.net;
-    return acc;
-  });
+  const { income, expense, net } =
+    Object.keys(groupedData).length !== 0
+      ? structuredClone(Object.values(groupedData)).reduce((acc, item) => {
+          acc.income += item.income;
+          acc.expense += item.expense;
+          acc.net += item.net;
+          return acc;
+        })
+      : { income: 0, expense: 0, net: 0 };
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <TransactionOverview income={income} expense={expense} net={net} />
+      {Object.keys(groupedData).length !== 0 && (
+        <TransactionOverview income={income} expense={expense} net={net} />
+      )}
       <div className="p-4 bg-white rounded-xl shadow-md dark:bg-zinc-900">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Transactions</h2>
