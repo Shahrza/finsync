@@ -84,10 +84,18 @@ const TransactionModal = ({ categories }: Props) => {
     })();
   }, [editingTransactionId, form]);
 
-  const onOpenChange = () => {
-    setOpen(!open);
-    setEditingTransactionId("");
-    form.reset();
+  const onOpenChange = (isOpen: boolean) => {
+    setOpen(isOpen);
+    if (!isOpen) {
+      setEditingTransactionId("");
+      form.reset({
+        type: TransactionType.Expense,
+        category_id: "",
+        amount: "",
+        date: new Date().toISOString(),
+        note: "",
+      });
+    }
   };
 
   const onSubmit = async (formData: z.infer<typeof transactionSchema>) => {
@@ -103,7 +111,7 @@ const TransactionModal = ({ categories }: Props) => {
         if (error) {
           throw error;
         }
-        onOpenChange();
+        onOpenChange(false);
         toast({
           title: "Transaction updated",
           variant: "success",
@@ -116,7 +124,7 @@ const TransactionModal = ({ categories }: Props) => {
       if (error) {
         throw error;
       }
-      onOpenChange();
+      onOpenChange(false);
       toast({ title: "Transaction added", variant: "success", duration: 2500 });
       router.refresh();
     } catch (e) {
@@ -151,7 +159,7 @@ const TransactionModal = ({ categories }: Props) => {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button
-          onClick={() => setOpen(true)}
+          onClick={() => onOpenChange(true)}
           className="rounded-lg dark:bg-zinc-200"
         >
           <Plus />
