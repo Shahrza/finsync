@@ -62,7 +62,9 @@ export default function Calendar() {
   };
 
   const handleMonthClick = (monthIndex: number) => {
-    setViewingMonth(setMonth(viewingMonth, monthIndex));
+    const newMonth = setMonth(viewingMonth, monthIndex);
+    setViewingMonth(newMonth);
+    setSearchParams(newMonth);
     setShowMonthSelect(false);
   };
 
