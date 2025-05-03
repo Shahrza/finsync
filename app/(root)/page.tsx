@@ -7,9 +7,26 @@ import TransactionListItem from "@/components/transactions/TransactionListItem";
 import TransactionOverview from "@/components/transactions/TransactionOverview";
 import TransactionDailyOverview from "@/components/transactions/TransactionDailyOverview";
 import { Separator } from "@/components/ui/separator";
+import Calendar from "@/components/transactions/calendar";
+import { addMonths, format, startOfMonth } from "date-fns";
 
-const Home = async () => {
-  const { data, error } = await getTransactions();
+const Home = async ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | undefined };
+}) => {
+  const {
+    fromDate = format(startOfMonth(new Date()), "yyyy-MM-dd"),
+    toDate = format(startOfMonth(addMonths(new Date(), 1)), "yyyy-MM-dd"),
+    ascending = false,
+  } = await searchParams;
+
+  const { data, error } = await getTransactions({
+    fromDate,
+    toDate,
+    ascending: ascending === "true",
+  });
+
   const { data: categoryList } = await getCategories();
 
   if (!data || error) return;
@@ -67,6 +84,7 @@ const Home = async () => {
       <div className="p-4 bg-white rounded-xl shadow-md dark:bg-zinc-900">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Transactions</h2>
+          <Calendar />
           <TransactionModal categories={categoryList} />
         </div>
         <Separator className="my-4" />

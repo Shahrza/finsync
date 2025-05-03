@@ -5,14 +5,21 @@ import { z } from "zod";
 
 import { transactionSchema } from "../validations";
 
-export async function getTransactions() {
+type TransactionsQuery = {
+  fromDate: string;
+  toDate: string;
+  ascending: boolean;
+};
+
+export async function getTransactions(query: TransactionsQuery) {
+  const { fromDate, toDate, ascending } = query;
   const supabase = await createClient();
   const res = await supabase
     .from("transactions")
     .select(`id,user_id,amount,type,note,date,category:categories(name,value)`)
-    .gte("date", `2025-01-01`)
-    .lt("date", "2026-01-01")
-    .order("date", { ascending: false });
+    .gte("date", fromDate)
+    .lt("date", toDate)
+    .order("date", { ascending });
   return res;
 }
 
