@@ -10,11 +10,11 @@ import { Separator } from "@/components/ui/separator";
 import Calendar from "@/components/transactions/calendar";
 import { addMonths, format, startOfMonth } from "date-fns";
 
-const Home = async ({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | undefined };
-}) => {
+type PageProps = {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+const Home = async ({ searchParams }: PageProps) => {
   const {
     fromDate = format(startOfMonth(new Date()), "yyyy-MM-dd"),
     toDate = format(startOfMonth(addMonths(new Date(), 1)), "yyyy-MM-dd"),
@@ -22,8 +22,8 @@ const Home = async ({
   } = await searchParams;
 
   const { data, error } = await getTransactions({
-    fromDate,
-    toDate,
+    fromDate: fromDate as string,
+    toDate: toDate as string,
     ascending: ascending === "true",
   });
 
