@@ -216,6 +216,7 @@ const TransactionModal = ({ categories }: Props) => {
                   control={form.control}
                   name="amount"
                   label="Amount"
+                  type="number"
                 />
               </div>
               <div className="grid grid-cols-1 items-center">
