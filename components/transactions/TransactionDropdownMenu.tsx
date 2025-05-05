@@ -74,7 +74,7 @@ export const TransactionDropdownMenu = ({ id }: Props) => {
             <EllipsisVertical size={16} />
           </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent side="bottom" align="end">
           <DropdownMenuGroup>
             <DropdownMenuItem onClick={() => handleEdit(id)}>
               Edit

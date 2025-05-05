@@ -84,19 +84,17 @@ export default function RegisterPage() {
               </div>
               <div className="flex flex-col space-y-1.5">
                 <CustomFormField
-                  fieldType={FormFieldType.INPUT}
+                  fieldType={FormFieldType.PASSWORD}
                   control={form.control}
                   name="password"
-                  type="password"
                   placeholder="Create a password"
                 />
               </div>
               <div className="flex flex-col space-y-1.5">
                 <CustomFormField
-                  fieldType={FormFieldType.INPUT}
+                  fieldType={FormFieldType.PASSWORD}
                   control={form.control}
                   name="confirmPassword"
-                  type="password"
                   placeholder="Confirm your password"
                 />
               </div>

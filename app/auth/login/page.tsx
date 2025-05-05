@@ -65,11 +65,10 @@ export default function LoginPage() {
               </div>
               <div className="flex flex-col space-y-1.5">
                 <CustomFormField
-                  fieldType={FormFieldType.INPUT}
+                  fieldType={FormFieldType.PASSWORD}
                   control={form.control}
                   name="password"
                   placeholder="Enter your password"
-                  type="password"
                 />
               </div>
             </div>

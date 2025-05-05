@@ -1,4 +1,5 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
+import { useState } from "react";
 import { CustomDatePicker } from "./custom-datepicker";
 import { Control } from "react-hook-form";
 
@@ -15,9 +16,11 @@ import { Select, SelectContent, SelectTrigger, SelectValue } from "./select";
 import { Textarea } from "./textarea";
 import { RadioGroup } from "./radio-group";
 import { format } from "date-fns";
+import { Eye, EyeOff } from "lucide-react";
 
 export enum FormFieldType {
   INPUT = "input",
+  PASSWORD = "password",
   TEXTAREA = "textarea",
   CHECKBOX = "checkbox",
   RADIO = "radio",
@@ -43,6 +46,9 @@ interface CustomProps {
 }
 
 const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+
   switch (props.fieldType) {
     case FormFieldType.INPUT:
       return (
@@ -53,6 +59,26 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
             {...field}
             className="shad-input"
           />
+        </FormControl>
+      );
+    case FormFieldType.PASSWORD:
+      return (
+        <FormControl>
+          <div className="relative w-full max-w-sm">
+            <Input
+              placeholder={props.placeholder}
+              className="pr-10"
+              type={showPassword ? "text" : "password"}
+              {...field}
+            />
+            <div onClick={togglePasswordVisibility}>
+              {showPassword ? (
+                <Eye className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              ) : (
+                <EyeOff className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              )}
+            </div>
+          </div>
         </FormControl>
       );
     case FormFieldType.TEXTAREA:
