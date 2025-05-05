@@ -1,5 +1,9 @@
 import { GroupedData, TransactionType } from "@/types";
-import { getTransactions } from "@/lib/actions/transaction";
+import {
+  getOverviewDataByMonth,
+  getOverviewDataByYear,
+  getTransactions,
+} from "@/lib/actions/transaction";
 import { getCategories } from "@/lib/actions/category";
 
 import TransactionModal from "@/components/transactions/TransactionModal";
@@ -8,10 +12,17 @@ import TransactionOverview from "@/components/transactions/TransactionOverview";
 import TransactionDailyOverview from "@/components/transactions/TransactionDailyOverview";
 import { Separator } from "@/components/ui/separator";
 import Calendar from "@/components/transactions/calendar";
+import { TransactionChart } from "@/components/charts/TransactionChart";
 import { addMonths, format, startOfMonth } from "date-fns";
 
 type PageProps = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+type MonthlyOverview = {
+  month: string;
+  income: number;
+  expense: number;
 };
 
 const Home = async ({ searchParams }: PageProps) => {
@@ -26,6 +37,18 @@ const Home = async ({ searchParams }: PageProps) => {
     toDate: toDate as string,
     ascending: ascending === "true",
   });
+
+  const { data: monthlyOverview } = await getOverviewDataByMonth(
+    format(new Date(fromDate as string), "yyyy-MM-dd")
+  );
+
+  const { data: yearlyOverview } = await getOverviewDataByYear(
+    format(new Date(fromDate as string), "yyyy")
+  );
+
+  const displayYearlyOverview = yearlyOverview.some(
+    (item: MonthlyOverview) => item.income !== 0 || item.expense !== 0
+  );
 
   const { data: categoryList } = await getCategories();
 
@@ -66,20 +89,19 @@ const Home = async ({ searchParams }: PageProps) => {
     return acc;
   }, {});
 
-  const { income, expense, net } =
-    Object.keys(groupedData).length !== 0
-      ? structuredClone(Object.values(groupedData)).reduce((acc, item) => {
-          acc.income += item.income;
-          acc.expense += item.expense;
-          acc.net += item.net;
-          return acc;
-        })
-      : { income: 0, expense: 0, net: 0 };
-
   return (
     <div className="container mx-auto px-4 py-8">
       {Object.keys(groupedData).length !== 0 && (
-        <TransactionOverview income={income} expense={expense} net={net} />
+        <TransactionOverview
+          income={monthlyOverview.total_income}
+          expense={monthlyOverview.total_expense}
+          net={monthlyOverview.total_amount}
+        />
+      )}
+      {displayYearlyOverview && (
+        <div className="p-4 bg-white rounded-xl shadow-md dark:bg-zinc-900 mb-4">
+          <TransactionChart data={yearlyOverview} />
+        </div>
       )}
       <div className="block sm:hidden p-4 bg-white rounded-xl shadow-md dark:bg-zinc-900 mb-4">
         <Calendar />

@@ -49,3 +49,19 @@ export async function updateTransaction(
   const res = await supabase.from("transactions").update(formData).eq("id", id);
   return res;
 }
+
+export async function getOverviewDataByMonth(month: string) {
+  const supabase = await createClient();
+  const res = await supabase.rpc("get_monthly_income_expense", {
+    month,
+  });
+  return res;
+}
+
+export async function getOverviewDataByYear(year: string) {
+  const supabase = await createClient();
+  const res = await supabase.rpc("get_yearly_income_expense", {
+    year,
+  });
+  return res;
+}
