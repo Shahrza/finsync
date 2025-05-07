@@ -63,15 +63,17 @@ const TransactionModal = ({ categories }: Props) => {
     { value: "income", label: "Income" },
   ];
 
+  const defaultFormValues = {
+    type: TransactionType.Expense,
+    category_id: "",
+    amount: "",
+    date: new Date().toISOString(),
+    note: "",
+  };
+
   const form = useForm<z.infer<typeof transactionSchema>>({
     resolver: zodResolver(transactionSchema),
-    defaultValues: {
-      type: TransactionType.Expense,
-      category_id: "",
-      amount: "",
-      date: new Date().toISOString(),
-      note: "",
-    },
+    defaultValues: defaultFormValues,
   });
 
   useEffect(() => {
@@ -88,13 +90,7 @@ const TransactionModal = ({ categories }: Props) => {
     setOpen(isOpen);
     if (!isOpen) {
       setEditingTransactionId("");
-      form.reset({
-        type: TransactionType.Expense,
-        category_id: "",
-        amount: "",
-        date: new Date().toISOString(),
-        note: "",
-      });
+      form.reset(defaultFormValues);
     }
   };
 
