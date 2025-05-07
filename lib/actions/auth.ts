@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { createClient } from "@/utils/supabase/server";
+import { withSupabase } from "@/utils/supabase/with-supabase";
 import { signInSchema, signUpSchema } from "@/lib/validations";
 
 type SignIn = {
@@ -17,9 +17,7 @@ type SignUp = {
   password: string;
 };
 
-export async function signIn(formData: SignIn) {
-  const supabase = await createClient();
-
+export const signIn = withSupabase(async (supabase, formData: SignIn) => {
   const result = signInSchema.safeParse(formData);
 
   if (!result.success) {
@@ -39,11 +37,9 @@ export async function signIn(formData: SignIn) {
 
   revalidatePath("/", "layout");
   redirect("/");
-}
+});
 
-export async function signUp(formData: SignUp) {
-  const supabase = await createClient();
-
+export const signUp = withSupabase(async (supabase, formData: SignUp) => {
   const result = signUpSchema.safeParse(formData);
 
   if (!result.success) {
@@ -72,16 +68,14 @@ export async function signUp(formData: SignUp) {
 
   revalidatePath("/", "layout");
   redirect("/");
-}
+});
 
-export async function signOut() {
-  const supabase = await createClient();
+export const signOut = withSupabase(async (supabase) => {
   await supabase.auth.signOut();
   redirect("/auth/login");
-}
+});
 
-export async function getUser() {
-  const supabase = await createClient();
+export const getUser = withSupabase(async (supabase) => {
   const res = await supabase.auth.getUser();
   return res;
-}
+});

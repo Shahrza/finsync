@@ -11,7 +11,7 @@ import TransactionListItem from "@/components/transactions/TransactionListItem";
 import TransactionOverview from "@/components/transactions/TransactionOverview";
 import TransactionDailyOverview from "@/components/transactions/TransactionDailyOverview";
 import { Separator } from "@/components/ui/separator";
-import Calendar from "@/components/transactions/calendar";
+import Calendar from "@/components/transactions/Calendar";
 import { TransactionChart } from "@/components/charts/TransactionChart";
 import { addMonths, format, startOfMonth } from "date-fns";
 

@@ -1,9 +1,8 @@
 "use server";
 
-import { createClient } from "@/utils/supabase/server";
+import { withSupabase } from "@/utils/supabase/with-supabase";
 
-export async function getCategories() {
-  const supabase = await createClient();
-  const { data, error } = await supabase.from("categories").select("*");
-  return { data, error };
-}
+export const getCategories = withSupabase(async (supabase) => {
+  const res = await supabase.from("categories").select("*");
+  return res;
+});
