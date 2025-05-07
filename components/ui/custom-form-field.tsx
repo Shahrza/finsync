@@ -120,7 +120,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           <CustomDatePicker
             selectedDate={field.value}
             onSelectDate={(date) =>
-              field.onChange(date ? format(date, "MM-dd-yyyy") : date)
+              field.onChange(date ? format(date, "MM/dd/yyyy") : date)
             }
             label={props.label}
             placeholder={props.placeholder}

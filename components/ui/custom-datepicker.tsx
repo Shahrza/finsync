@@ -52,7 +52,7 @@ const CustomDatePicker = React.forwardRef<
     const [open, setOpen] = React.useState(false);
     return (
       <div className={cn("flex flex-col gap-2", className)}>
-        <Popover open={open} onOpenChange={setOpen}>
+        <Popover open={open} onOpenChange={setOpen} modal={true}>
           <PopoverTrigger asChild>
             <Button
               variant="outline"
@@ -67,7 +67,7 @@ const CustomDatePicker = React.forwardRef<
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
               {selectedDate ? (
-                format(selectedDate, "dd.MM.yyyy")
+                format(selectedDate, "dd/MM/yyyy")
               ) : (
                 <span>{placeholder}</span>
               )}
