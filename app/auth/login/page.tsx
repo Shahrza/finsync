@@ -48,8 +48,11 @@ export default function LoginPage() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Card className="w-[400px] shadow-2xl border-none dark:bg-zinc-900">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="min-w-[200px] max-w-[400px] w-[100%] m-4"
+      >
+        <Card className="shadow-2xl border-none dark:bg-zinc-900">
           <CardHeader className="text-center mb-2">
             <CardTitle className="text-2xl">FinSync</CardTitle>
             <CardDescription>Manage your finances efficiently</CardDescription>
