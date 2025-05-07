@@ -11,7 +11,7 @@ import TransactionListItem from "@/components/transactions/TransactionListItem";
 import TransactionOverview from "@/components/transactions/TransactionOverview";
 import TransactionDailyOverview from "@/components/transactions/TransactionDailyOverview";
 import { Separator } from "@/components/ui/separator";
-import Calendar from "@/components/transactions/Calendar";
+// import Calendar from "@/components/transactions/Calendar";
 import { TransactionChart } from "@/components/charts/TransactionChart";
 import { addMonths, format, startOfMonth } from "date-fns";
 
@@ -104,14 +104,12 @@ const Home = async ({ searchParams }: PageProps) => {
         </div>
       )}
       <div className="block sm:hidden p-4 bg-white rounded-xl shadow-md dark:bg-zinc-900 mb-4">
-        <Calendar />
+        {/* <Calendar /> */}
       </div>
       <div className="p-4 bg-white rounded-xl shadow-md dark:bg-zinc-900">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Transactions</h2>
-          <div className="hidden md:block">
-            <Calendar />
-          </div>
+          <div className="hidden md:block">{/* <Calendar /> */}</div>
           <TransactionModal categories={categoryList} />
         </div>
         <Separator className="my-4" />
