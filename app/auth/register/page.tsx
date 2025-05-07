@@ -16,6 +16,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { signUp } from "@/lib/actions/auth";
+import type { SignUp } from "@/lib/actions/auth";
 import { signUpSchema } from "@/lib/validations";
 import { useToast } from "@/hooks/use-toast";
 import { redirect } from "next/navigation";
@@ -41,7 +42,7 @@ export default function RegisterPage() {
 
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     setIsLoading(true);
-    const { isConfirmationSent, error } = await signUp(data);
+    const { isConfirmationSent, error } = await signUp(data as SignUp);
     if (isConfirmationSent) {
       toast({
         title: "Please check your email to confirm your account",

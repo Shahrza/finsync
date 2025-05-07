@@ -6,12 +6,12 @@ import { redirect } from "next/navigation";
 import { withSupabase } from "@/utils/supabase/with-supabase";
 import { signInSchema, signUpSchema } from "@/lib/validations";
 
-type SignIn = {
+export type SignIn = {
   email: string;
   password: string;
 };
 
-type SignUp = {
+export type SignUp = {
   fullName: string;
   email: string;
   password: string;

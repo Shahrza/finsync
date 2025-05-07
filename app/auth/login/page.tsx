@@ -20,6 +20,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { signIn } from "@/lib/actions/auth";
+import type { SignIn } from "@/lib/actions/auth";
 import { signInSchema } from "@/lib/validations";
 import { useToast } from "@/hooks/use-toast";
 
@@ -38,7 +39,7 @@ export default function LoginPage() {
 
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
     setIsLoading(true);
-    const { error } = await signIn(data);
+    const { error } = await signIn(data as SignIn);
     if (error) {
       toast({ title: error, variant: "destructive", duration: 2500 });
     }
