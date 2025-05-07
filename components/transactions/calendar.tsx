@@ -33,7 +33,7 @@ const months = [
   "December",
 ];
 
-export default function Calendar() {
+export default function CalendarComponent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [viewingMonth, setViewingMonth] = useState(startOfMonth(new Date()));
