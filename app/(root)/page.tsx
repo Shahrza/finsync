@@ -1,10 +1,13 @@
-import { GroupedData, TransactionType } from "@/types";
+import { addMonths, format, startOfMonth } from "date-fns";
+
+import { GroupedData, MonthlyOverview } from "@/types";
 import {
   getOverviewDataByMonth,
   getOverviewDataByYear,
   getTransactions,
 } from "@/lib/actions/transaction";
 import { getCategories } from "@/lib/actions/category";
+import { groupTransactionsByDate } from "@/helper/groupTransactionsByDate";
 
 import TransactionModal from "@/components/transactions/TransactionModal";
 import TransactionListItem from "@/components/transactions/TransactionListItem";
@@ -13,16 +16,9 @@ import TransactionDailyOverview from "@/components/transactions/TransactionDaily
 import { Separator } from "@/components/ui/separator";
 import Calendar from "@/components/transactions/Calendar";
 import { TransactionChart } from "@/components/charts/TransactionChart";
-import { addMonths, format, startOfMonth } from "date-fns";
 
 type PageProps = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-};
-
-type MonthlyOverview = {
-  month: string;
-  income: number;
-  expense: number;
 };
 
 const Home = async ({ searchParams }: PageProps) => {
@@ -38,6 +34,16 @@ const Home = async ({ searchParams }: PageProps) => {
     ascending: ascending === "true",
   });
 
+  if (!data || error) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-gray-500">
+          {error ? "Error fetching transactions" : "No transactions found"}
+        </div>
+      </div>
+    );
+  }
+
   const { data: monthlyOverview } = await getOverviewDataByMonth(
     format(new Date(fromDate as string), "yyyy-MM-dd")
   );
@@ -46,52 +52,19 @@ const Home = async ({ searchParams }: PageProps) => {
     format(new Date(fromDate as string), "yyyy")
   );
 
+  const { data: categoryList } = await getCategories();
+
   const displayYearlyOverview = yearlyOverview.some(
     (item: MonthlyOverview) => item.income !== 0 || item.expense !== 0
   );
 
-  const { data: categoryList } = await getCategories();
+  const hasTransactions = data.length > 0;
 
-  if (!data || error) return;
-
-  const groupedData: GroupedData = data.reduce((acc: GroupedData, item) => {
-    const transaction = {
-      ...item,
-      category: Array.isArray(item.category) ? item.category[0] : item.category,
-    };
-
-    const dayKey = new Date(item.date)
-      .toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      })
-      .replace(/\//g, ".");
-
-    if (!acc[dayKey]) {
-      acc[dayKey] = {
-        income: 0,
-        expense: 0,
-        net: 0,
-        transactions: [],
-      };
-    }
-
-    if (item.type === TransactionType.Income) {
-      acc[dayKey].income += item.amount;
-    } else {
-      acc[dayKey].expense += Math.abs(item.amount);
-    }
-    acc[dayKey].net +=
-      item.type === TransactionType.Income ? item.amount : -item.amount;
-    acc[dayKey].transactions.unshift(transaction);
-
-    return acc;
-  }, {});
+  const groupedData: GroupedData = groupTransactionsByDate(data);
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {Object.keys(groupedData).length !== 0 && (
+      {hasTransactions && (
         <TransactionOverview
           income={monthlyOverview.total_income}
           expense={monthlyOverview.total_expense}
@@ -115,7 +88,7 @@ const Home = async ({ searchParams }: PageProps) => {
           <TransactionModal categories={categoryList} />
         </div>
         <Separator className="my-4" />
-        {Object.keys(groupedData).length === 0 && (
+        {!hasTransactions && (
           <div className="text-gray-500">
             No transactions found for the selected date range.
           </div>
@@ -131,7 +104,7 @@ const Home = async ({ searchParams }: PageProps) => {
                 />
               ))}
             </div>
-            {Object.keys(groupedData).length > 1 &&
+            {hasTransactions &&
               Object.keys(groupedData).length - 1 !==
                 Object.keys(groupedData).indexOf(date) && (
                 <Separator className="mt-6 mb-4" />

@@ -30,3 +30,9 @@ export type Category = {
     color: string;
   };
 };
+
+export type MonthlyOverview = {
+  month: string;
+  income: number;
+  expense: number;
+};
