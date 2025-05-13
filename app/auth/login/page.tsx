@@ -9,22 +9,18 @@ import { Form } from "@/components/ui/form";
 import CustomFormField, {
   FormFieldType,
 } from "@/components/ui/custom-form-field";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { signIn } from "@/lib/actions/auth";
 import type { SignIn } from "@/lib/actions/auth";
 import { signInSchema } from "@/lib/validations";
 import { useToast } from "@/hooks/use-toast";
+import AuthCardHeader from "@/components/auth/AuthCardHeader";
 
 export default function LoginPage() {
+  const t = useTranslations("auth");
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -53,10 +49,7 @@ export default function LoginPage() {
         className="min-w-[200px] max-w-[400px] w-[100%] m-4"
       >
         <Card className="shadow-2xl border-none dark:bg-zinc-900">
-          <CardHeader className="text-center mb-2">
-            <CardTitle className="text-2xl">FinSync</CardTitle>
-            <CardDescription>Manage your finances efficiently</CardDescription>
-          </CardHeader>
+          <AuthCardHeader />
           <CardContent>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
@@ -64,7 +57,7 @@ export default function LoginPage() {
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
                   name="email"
-                  placeholder="Enter your email"
+                  placeholder={t("email")}
                 />
               </div>
               <div className="flex flex-col space-y-1.5">
@@ -72,7 +65,7 @@ export default function LoginPage() {
                   fieldType={FormFieldType.PASSWORD}
                   control={form.control}
                   name="password"
-                  placeholder="Enter your password"
+                  placeholder={t("password")}
                 />
               </div>
             </div>
@@ -84,13 +77,13 @@ export default function LoginPage() {
               type="submit"
               loading={isLoading}
             >
-              Sign in
+              {t("sign_in")}
             </Button>
             <div className="text-sm text-muted-foreground">
-              <span>Don&apos;t have an account?</span>
+              <span>{t("no_account")} </span>
               {"  "}
               <NextLink href="/auth/register" className="underline">
-                Register
+                {t("register")}
               </NextLink>
             </div>
           </CardFooter>

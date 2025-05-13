@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -29,6 +30,9 @@ type Props = {
 };
 
 export const TransactionDropdownMenu = ({ id }: Props) => {
+  const t = useTranslations("transaction");
+  const errorT = useTranslations("error");
+  const commonT = useTranslations("common");
   const router = useRouter();
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
@@ -50,14 +54,14 @@ export const TransactionDropdownMenu = ({ id }: Props) => {
         .eq("id", id);
       if (error) {
         toast({
-          title: "An error occurred",
+          title: errorT("error_occurred"),
           variant: "destructive",
         });
         throw error;
       }
       setOpen(false);
       toast({
-        title: "Transaction deleted",
+        title: t("delete_success"),
         variant: "success",
       });
       router.refresh();
@@ -77,7 +81,7 @@ export const TransactionDropdownMenu = ({ id }: Props) => {
         <DropdownMenuContent side="bottom" align="end">
           <DropdownMenuGroup>
             <DropdownMenuItem onClick={() => handleEdit(id)}>
-              Edit
+              {t("edit")}
               <DropdownMenuShortcut>
                 <Pencil size={16} />
               </DropdownMenuShortcut>
@@ -86,7 +90,7 @@ export const TransactionDropdownMenu = ({ id }: Props) => {
               onClick={() => setOpen(true)}
               className="text-red-600 focus:bg-red-500 focus:text-white"
             >
-              Delete
+              {t("delete")}
               <DropdownMenuShortcut>
                 <Trash size={16} />
               </DropdownMenuShortcut>
@@ -96,14 +100,12 @@ export const TransactionDropdownMenu = ({ id }: Props) => {
       </DropdownMenu>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="mb-4">Delete Transaction</DialogTitle>
-          <DialogDescription>
-            Are you sure you want to delete this transaction?
-          </DialogDescription>
+          <DialogTitle className="mb-4">{t("delete")}</DialogTitle>
+          <DialogDescription>{t("confirm_delete")}</DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <Button onClick={() => setOpen(false)} disabled={isLoading}>
-            Cancel
+            {commonT("cancel")}
           </Button>
           <Button
             onClick={handleDelete}
@@ -111,7 +113,7 @@ export const TransactionDropdownMenu = ({ id }: Props) => {
             loading={isLoading}
             className="bg-red-600 text-white hover:bg-red-700"
           >
-            Delete
+            {t("delete")}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -1,0 +1,71 @@
+{
+  "auth": {
+    "manage_finances": "Maliyyənizi səmərəli şəkildə idarə edin",
+    "email": "E-poçtunuzu daxil edin",
+    "password": "Şifrənizi daxil edin",
+    "sign_in": "Daxil ol",
+    "no_account": "Hesabınız yoxdur?",
+    "register": "Qeydiyyatdan keçin",
+    "full_name": "Tam adınızı daxil edin",
+    "create_password": "Şifrə yaradın",
+    "confirm_password": "Şifrənizi təsdiqləyin",
+    "create_account": "Hesab yaradın",
+    "has_account": "Artıq hesabınız var?",
+    "welcome": "Xoş gəlmisiniz",
+    "confirmation_email_sent": "Hesabınızı təsdiqləmək üçün e-poçtunuzu yoxlayın"
+  },
+  "common": {
+    "save": "Yadda saxla",
+    "delete": "Sil",
+    "edit": "Redaktə et",
+    "add": "Əlavə et",
+    "cancel": "Ləğv et",
+    "confirm": "Təsdiq et",
+    "close": "Bağla",
+    "date": "Tarix"
+  },
+  "transaction": {
+    "income": "Gəlir",
+    "expense": "Xərc",
+    "total": "Cəmi",
+    "transactions": "Əməliyyatlar",
+    "new": "Yeni əməliyyat",
+    "add": "Əməliyyat əlavə et",
+    "edit": "Əməliyyatı redaktə et",
+    "delete": "Əməliyyatı sil",
+    "save": "Əməliyyatı yadda saxla",
+    "amount": "Məbləğ",
+    "category": "Kateqoriya",
+    "description": "Qeyd",
+    "confirm_delete": "Bu əməliyyatı silmək istədiyinizə əminsiniz?",
+    "not_found": "Seçilmiş tarix aralığında heç bir əməliyyat tapılmadı.",
+    "add_success": "Əməliyyat uğurla əlavə edildi.",
+    "update_success": "Əməliyyat uğurla yeniləndi.",
+    "delete_success": "Əməliyyat uğurla silindi."
+  },
+  "category": {
+    "entertainment": "Əyləncə",
+    "communication": "Əlaqə",
+    "gift": "Hədiyyə",
+    "vehicle": "Nəqliyyat vasitəsi",
+    "education": "Təhsil",
+    "transport": "Nəqliyyat",
+    "shopping": "Alış-veriş",
+    "health": "Sağlamlıq",
+    "travel": "Səyahət",
+    "food_beverages": "Qida və İçki",
+    "household": "Ev təsərrüfatı",
+    "credit": "Kredit",
+    "other": "Digər",
+    "income": "Gəlir",
+    "bonus": "Bonus"
+  },
+  "locale_switcher": {
+    "label": "Dil",
+    "en": "İngilis",
+    "az": "Azərbaycan"
+  },
+  "error": {
+    "error_occurred": "Üzr istəyirik, bir xəta baş verdi"
+  }
+}

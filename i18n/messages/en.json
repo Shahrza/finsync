@@ -1,0 +1,71 @@
+{
+  "auth": {
+    "manage_finances": "Manage your finances efficiently",
+    "email": "Enter your email",
+    "password": "Enter your password",
+    "sign_in": "Sign in",
+    "no_account": "Don’t have an account?",
+    "register": "Register",
+    "full_name": "Enter your full name",
+    "create_password": "Create a password",
+    "confirm_password": "Confirm your password",
+    "create_account": "Create Account",
+    "has_account": "Already have an account?",
+    "welcome": "Welcome",
+    "confirmation_email_sent": "Please check your email to confirm your account"
+  },
+  "common": {
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "close": "Close",
+    "date": "Date"
+  },
+  "transaction": {
+    "income": "Income",
+    "expense": "Expense",
+    "total": "Total",
+    "transactions": "Transactions",
+    "new": "New Transaction",
+    "add": "Add Transaction",
+    "edit": "Edit Transaction",
+    "delete": "Delete Transaction",
+    "save": "Save Transaction",
+    "amount": "Amount",
+    "category": "Category",
+    "description": "Description",
+    "confirm_delete": "Are you sure you want to delete this transaction?",
+    "not_found": "No transactions found for the selected date range.",
+    "add_success": "Transaction added successfully.",
+    "update_success": "Transaction updated successfully.",
+    "delete_success": "Transaction deleted successfully."
+  },
+  "category": {
+    "entertainment": "Entertainment",
+    "communication": "Communication",
+    "gift": "Gift",
+    "vehicle": "Vehicle",
+    "education": "Education",
+    "transport": "Transport",
+    "shopping": "Shopping",
+    "health": "Health",
+    "travel": "Travel",
+    "food_beverages": "Food & Beverages",
+    "household": "Household",
+    "credit": "Credit",
+    "other": "Other",
+    "income": "Income",
+    "bonus": "Bonus"
+  },
+  "locale_switcher": {
+    "label": "Language",
+    "en": "English",
+    "az": "Azerbaijani"
+  },
+  "error": {
+    "error_occurred": "Sorry, something went wrong"
+  }
+}

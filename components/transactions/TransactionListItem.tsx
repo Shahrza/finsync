@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { Transaction, TransactionType } from "@/types";
 import { DynamicIcon, IconName } from "lucide-react/dynamic";
 import { clsx } from "clsx";
@@ -8,7 +9,9 @@ type Props = {
   transaction: Transaction;
 };
 
-const TransactionListItem = ({ transaction }: Props) => {
+const TransactionListItem = async ({ transaction }: Props) => {
+  const t = await getTranslations("category");
+
   return (
     <div
       key={transaction.id}
@@ -30,7 +33,7 @@ const TransactionListItem = ({ transaction }: Props) => {
           </div>
           <div>
             <p className="text-gray-700 dark:text-gray-100">
-              {transaction.category.name}
+              {t(transaction.category.value)}
             </p>
             <p className="text-sm text-gray-400 font-normal dark:text-gray-100">
               {transaction.note}

@@ -7,6 +7,7 @@ import {
   XAxis,
   ResponsiveContainer,
 } from "recharts";
+import { useTranslations } from "next-intl";
 
 import {
   ChartConfig,
@@ -23,18 +24,19 @@ type Props = {
   }[];
 };
 
-const chartConfig = {
-  income: {
-    label: "Income",
-    color: "#49DE80",
-  },
-  expense: {
-    label: "Expense",
-    color: "#F77171",
-  },
-} satisfies ChartConfig;
-
 export function TransactionChart({ data }: Props) {
+  const t = useTranslations("transaction");
+  const chartConfig = {
+    income: {
+      label: t("income"),
+      color: "#49DE80",
+    },
+    expense: {
+      label: t("expense"),
+      color: "#F77171",
+    },
+  } satisfies ChartConfig;
+
   return (
     <ResponsiveContainer height={300}>
       <ChartContainer config={chartConfig} className="w-full">

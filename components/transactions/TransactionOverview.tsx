@@ -1,4 +1,5 @@
 import { DollarSign, TrendingDown, TrendingUp } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
 type Props = {
   income: number;
@@ -6,7 +7,8 @@ type Props = {
   net: number;
 };
 
-const TransactionOverview = ({ income, expense, net }: Props) => {
+const TransactionOverview = async ({ income, expense, net }: Props) => {
+  const t = await getTranslations("transaction");
   return (
     <div className="flex md:flex-nowrap flex-wrap justify-between items-center md:mb-8 mb-4 md:w-[50%] w-[100%]">
       <div className="w-[100%] bg-white rounded-2xl p-4 flex items-end md:mr-4 mr-0 md:mb-0 mb-4 border border-neutral-200 dark:bg-zinc-900 dark:border-zinc-700">
@@ -15,7 +17,7 @@ const TransactionOverview = ({ income, expense, net }: Props) => {
         </div>
         <div>
           <p className="text-2xl font-semibold text-emerald-500">${income}</p>
-          <p className="text-sm text-gray-500">Income</p>
+          <p className="text-sm text-gray-500">{t("income")}</p>
         </div>
       </div>
 
@@ -25,7 +27,7 @@ const TransactionOverview = ({ income, expense, net }: Props) => {
         </div>
         <div>
           <p className="text-2xl font-semibold text-rose-500">${expense}</p>
-          <p className="text-sm text-gray-500">Expense</p>
+          <p className="text-sm text-gray-500">{t("expense")}</p>
         </div>
       </div>
 
@@ -37,7 +39,7 @@ const TransactionOverview = ({ income, expense, net }: Props) => {
           <p className="text-2xl font-semibold text-sky-500">
             {net === 0 ? "0" : net > 0 ? `+$${net}` : `-$${Math.abs(net)}`}
           </p>
-          <p className="text-sm text-gray-500">Total</p>
+          <p className="text-sm text-gray-500">{t("total")}</p>
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@
 
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import {
@@ -49,6 +50,10 @@ type Props = {
 };
 
 const TransactionModal = ({ categories }: Props) => {
+  const t = useTranslations("transaction");
+  const commonT = useTranslations("common");
+  const categoryT = useTranslations("category");
+
   const { toast } = useToast();
   const router = useRouter();
   const { editingTransactionId, setEditingTransactionId } = useTransactions();
@@ -59,8 +64,8 @@ const TransactionModal = ({ categories }: Props) => {
   const user = useContext(UserContext);
 
   const types = [
-    { value: "expense", label: "Expense" },
-    { value: "income", label: "Income" },
+    { value: "expense", label: t("expense") },
+    { value: "income", label: t("income") },
   ];
 
   const defaultFormValues = {
@@ -109,7 +114,7 @@ const TransactionModal = ({ categories }: Props) => {
         }
         onOpenChange(false);
         toast({
-          title: "Transaction updated",
+          title: t("update_success"),
           variant: "success",
           duration: 2500,
         });
@@ -121,11 +126,11 @@ const TransactionModal = ({ categories }: Props) => {
         throw error;
       }
       onOpenChange(false);
-      toast({ title: "Transaction added", variant: "success", duration: 2500 });
+      toast({ title: t("add_success"), variant: "success", duration: 2500 });
       router.refresh();
     } catch (e) {
       toast({
-        title: "Error",
+        title: commonT("error_occurred"),
         variant: "destructive",
         duration: 2500,
       });
@@ -143,11 +148,11 @@ const TransactionModal = ({ categories }: Props) => {
       ?.filter((value) => {
         if (value.type === type) return value;
       })
-      .map(({ id, name }) => ({
+      .map(({ id, value }) => ({
         value: id,
-        label: name,
+        label: categoryT(value),
       }));
-  }, [categories, type]);
+  }, [categories, type, categoryT]);
 
   const today = new Date();
 
@@ -159,13 +164,13 @@ const TransactionModal = ({ categories }: Props) => {
           className="rounded-lg dark:bg-zinc-200"
         >
           <Plus />
-          Add Transaction
+          {t("add")}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]" aria-describedby={undefined}>
         <DialogHeader>
           <DialogTitle>
-            {editingTransactionId ? "Edit" : "New"} Transaction
+            {editingTransactionId ? t("edit") : t("add")}
           </DialogTitle>
         </DialogHeader>
         <Separator />
@@ -211,7 +216,7 @@ const TransactionModal = ({ categories }: Props) => {
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
                   name="amount"
-                  label="Amount"
+                  label={t("amount")}
                   type="number"
                 />
               </div>
@@ -220,7 +225,7 @@ const TransactionModal = ({ categories }: Props) => {
                   fieldType={FormFieldType.SELECT}
                   control={form.control}
                   name="category_id"
-                  label="Category"
+                  label={t("category")}
                 >
                   {categoryList.map((item) => (
                     <SelectItem key={item.value} value={item.value}>
@@ -235,7 +240,7 @@ const TransactionModal = ({ categories }: Props) => {
                   control={form.control}
                   disabledDate={(date: Date) => date > today}
                   name="date"
-                  label="Date"
+                  label={commonT("date")}
                 />
               </div>
               <div className="grid grid-cols-1 items-center">
@@ -243,14 +248,14 @@ const TransactionModal = ({ categories }: Props) => {
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
                   name="note"
-                  label="Description"
+                  label={t("description")}
                 />
               </div>
             </div>
             <Separator className="my-4" />
             <DialogFooter>
               <Button type="submit" size="block" loading={isLoading}>
-                Save Transaction
+                {t("save")}
               </Button>
             </DialogFooter>
           </form>
