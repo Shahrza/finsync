@@ -11,7 +11,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import InputError from "@/components/ui/input-error";
 
 export interface CustomDatePickerProps {
   selectedDate?: Date;
@@ -25,7 +24,6 @@ export interface CustomDatePickerProps {
   id?: string;
   disabled?: boolean;
   disabledDate?: (date: Date) => boolean;
-  error?: string;
 }
 
 const CustomDatePicker = React.forwardRef<
@@ -44,7 +42,6 @@ const CustomDatePicker = React.forwardRef<
       id,
       disabled,
       disabledDate,
-      error,
       ...props
     },
     ref
@@ -91,7 +88,6 @@ const CustomDatePicker = React.forwardRef<
             />
           </PopoverContent>
         </Popover>
-        <InputError error={error} />
       </div>
     );
   }

@@ -83,5 +83,18 @@
   },
   "error": {
     "error_occurred": "Üzr istəyirik, bir xəta baş verdi"
+  },
+  "validation": {
+    "email_required": "E-poçt tələb olunur",
+    "email_invalid": "E-poçt düzgün deyil",
+    "password_required": "Şifrə tələb olunur",
+    "password_min_length": "Şifrə ən azı 6 simvoldan ibarət olmalıdır",
+    "password_match": "Şifrələr uyğun gəlmir",
+    "full_name_required": "Tam ad tələb olunur",
+    "confirm_password_required": "Şifrəni təsdiqləmək tələb olunur",
+    "category_required": "Kateqoriya tələb olunur",
+    "amount_required": "Məbləğ tələb olunur",
+    "amount_invalid": "Məbləğ düzgün deyil",
+    "date_required": "Tarix tələb olunur"
   }
 }

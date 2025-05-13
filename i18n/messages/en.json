@@ -83,5 +83,18 @@
   },
   "error": {
     "error_occurred": "Sorry, something went wrong"
+  },
+  "validation": {
+    "email_required": "Email is required",
+    "email_invalid": "Email is invalid",
+    "password_required": "Password is required",
+    "password_min_length": "Password must be at least 6 characters long",
+    "password_match": "Passwords do not match",
+    "full_name_required": "Full name is required",
+    "confirm_password_required": "Confirm password is required",
+    "category_required": "Category is required",
+    "amount_required": "Amount is required",
+    "amount_invalid": "Amount must be a number",
+    "date_required": "Date is required"
   }
 }
