@@ -60,6 +60,22 @@
     "income": "Gəlir",
     "bonus": "Bonus"
   },
+  "calendar": {
+    "month": {
+      "january": "Yanvar",
+      "february": "Fevral",
+      "march": "Mart",
+      "april": "Aprel",
+      "may": "May",
+      "june": "İyun",
+      "july": "İyul",
+      "august": "Avqust",
+      "september": "Sentyabr",
+      "october": "Oktyabr",
+      "november": "Noyabr",
+      "december": "Dekabr"
+    }
+  },
   "locale_switcher": {
     "label": "Dil",
     "en": "İngilis",

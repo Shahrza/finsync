@@ -17,23 +17,28 @@ import {
   getMonth,
   startOfMonth,
 } from "date-fns";
+import { useTranslations } from "next-intl";
 
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
+const monthNames = [
+  "january",
+  "february",
+  "march",
+  "april",
+  "may",
+  "june",
+  "july",
+  "august",
+  "september",
+  "october",
+  "november",
+  "december",
 ];
 
 export default function Calendar() {
+  const monthT = useTranslations("calendar.month");
+
+  const months = monthNames.map((month) => monthT(month));
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const [viewingMonth, setViewingMonth] = useState(startOfMonth(new Date()));

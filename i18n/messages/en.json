@@ -60,6 +60,22 @@
     "income": "Income",
     "bonus": "Bonus"
   },
+  "calendar": {
+    "month": {
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December"
+    }
+  },
   "locale_switcher": {
     "label": "Language",
     "en": "English",
