@@ -5,6 +5,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
+import Header from "@/components/layout/Header";
+import { getUser } from "@/lib/actions/auth";
+import UserContextProvider from "@/context/userContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +31,9 @@ export default async function RootLayout({
 }>) {
   const locale = await getLocale();
 
+  const { data } = await getUser();
+  const user = data?.user || null;
+
   return (
     <html lang={locale} suppressHydrationWarning>
       <head />
@@ -40,8 +46,13 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <NextIntlClientProvider>{children}</NextIntlClientProvider>
-          <Toaster />
+          <UserContextProvider value={user}>
+            <NextIntlClientProvider>
+              <Header fullName={user?.user_metadata.fullName} />
+              {children}
+              <Toaster />
+            </NextIntlClientProvider>
+          </UserContextProvider>
         </ThemeProvider>
       </body>
     </html>
