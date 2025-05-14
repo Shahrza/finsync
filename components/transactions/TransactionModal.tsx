@@ -81,6 +81,8 @@ const TransactionModal = ({ categories }: Props) => {
     defaultValues: defaultFormValues,
   });
 
+  const type = form.watch("type");
+
   useEffect(() => {
     if (!editingTransactionId) return;
     (async () => {
@@ -140,7 +142,9 @@ const TransactionModal = ({ categories }: Props) => {
     }
   };
 
-  const type = form.watch("type");
+  const handleValueChange = () => {
+    form.setValue("category_id", "");
+  };
 
   const categoryList = useMemo(() => {
     if (!categories?.length) return [];
@@ -186,7 +190,10 @@ const TransactionModal = ({ categories }: Props) => {
                     <FormControl>
                       <RadioGroup
                         className="flex"
-                        onValueChange={field.onChange}
+                        onValueChange={(val) => {
+                          handleValueChange();
+                          field.onChange(val);
+                        }}
                         defaultValue={field.value}
                       >
                         {types.map((option) => (

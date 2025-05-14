@@ -17,5 +17,6 @@ export const categories: Category = {
   credit: { icon: "landmark", color: "bg-violet-400" },
   travel: { icon: "plane", color: "bg-teal-400" },
   vehicle: { icon: "car", color: "bg-lime-400" },
+  bonus: { icon: "star", color: "bg-yellow-400" },
   other: { icon: "circle-help", color: "bg-gray-400" },
 };
