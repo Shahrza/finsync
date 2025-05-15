@@ -24,7 +24,7 @@ type Props = {
   }[];
 };
 
-export function TransactionChart({ data }: Props) {
+export default function TransactionChart({ data }: Props) {
   const t = useTranslations("transaction");
   const chartConfig = {
     income: {

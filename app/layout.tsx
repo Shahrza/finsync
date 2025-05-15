@@ -48,7 +48,7 @@ export default async function RootLayout({
         >
           <UserContextProvider value={user}>
             <NextIntlClientProvider>
-              <Header fullName={user?.user_metadata.fullName} />
+              <Header isAuthenticated={!!user} />
               {children}
               <Toaster />
             </NextIntlClientProvider>

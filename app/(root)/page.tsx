@@ -1,4 +1,5 @@
 import { addMonths, format, startOfMonth } from "date-fns";
+import { getTranslations } from "next-intl/server";
 
 import { GroupedData, MonthlyOverview } from "@/types";
 import {
@@ -9,14 +10,14 @@ import {
 import { getCategories } from "@/lib/actions/category";
 import { groupTransactionsByDate } from "@/helper/groupTransactionsByDate";
 
+import { Separator } from "@/components/ui/separator";
 import TransactionModal from "@/components/transactions/TransactionModal";
 import TransactionListItem from "@/components/transactions/TransactionListItem";
 import TransactionOverview from "@/components/transactions/TransactionOverview";
 import TransactionDailyOverview from "@/components/transactions/TransactionDailyOverview";
-import { Separator } from "@/components/ui/separator";
 import Calendar from "@/components/transactions/Calendar";
-import { TransactionChart } from "@/components/charts/TransactionChart";
-import { getTranslations } from "next-intl/server";
+import TransactionChart from "@/components/charts/TransactionChart";
+import WelcomeMessage from "@/components/WelcomeMessage";
 
 type PageProps = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -67,6 +68,7 @@ const Home = async ({ searchParams }: PageProps) => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <WelcomeMessage />
       {hasTransactions && (
         <TransactionOverview
           income={monthlyOverview.total_income}
