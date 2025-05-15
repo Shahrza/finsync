@@ -1,5 +1,6 @@
 import { addMonths, format, startOfMonth } from "date-fns";
-import { getTranslations } from "next-intl/server";
+import { enUS, az } from "date-fns/locale";
+import { getLocale, getTranslations } from "next-intl/server";
 
 import { GroupedData, MonthlyOverview } from "@/types";
 import {
@@ -25,6 +26,7 @@ type PageProps = {
 
 const Home = async ({ searchParams }: PageProps) => {
   const t = await getTranslations("transaction");
+  const locale = await getLocale();
 
   const {
     fromDate = format(startOfMonth(new Date()), "yyyy-MM-dd"),
@@ -58,6 +60,15 @@ const Home = async ({ searchParams }: PageProps) => {
 
   const { data: categoryList } = await getCategories();
 
+  const localizedYearlyOverview = yearlyOverview.map(
+    (item: MonthlyOverview, index: number) => ({
+      ...item,
+      month: format(new Date(2025, index, 1), "MMMM", {
+        locale: locale === "en" ? enUS : az,
+      }),
+    })
+  );
+
   const displayYearlyOverview = yearlyOverview.some(
     (item: MonthlyOverview) => item.income !== 0 || item.expense !== 0
   );
@@ -78,7 +89,7 @@ const Home = async ({ searchParams }: PageProps) => {
       )}
       {displayYearlyOverview && (
         <div className="p-4 bg-white rounded-xl shadow-md dark:bg-zinc-900 mb-4">
-          <TransactionChart data={yearlyOverview} />
+          <TransactionChart data={localizedYearlyOverview} />
         </div>
       )}
       <div className="block sm:hidden p-4 bg-white rounded-xl shadow-md dark:bg-zinc-900 mb-4">
