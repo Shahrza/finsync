@@ -71,10 +71,16 @@ const TransactionModal = ({ categories }: Props) => {
     { value: "income", label: t("income") },
   ];
 
+  const accountTypes = [
+    { value: "cash", label: t("cash") },
+    { value: "bank", label: t("bank") },
+  ];
+
   const defaultFormValues = {
     type: TransactionType.Expense,
     category_id: "",
     amount: "",
+    account_type: "",
     date: new Date().toISOString(),
     note: "",
   };
@@ -248,6 +254,22 @@ const TransactionModal = ({ categories }: Props) => {
                           )}
                           name={categoriesArr[item.name].icon as IconName}
                         ></DynamicIcon>{" "}
+                        {item.label}
+                      </div>
+                    </SelectItem>
+                  ))}
+                </CustomFormField>
+              </div>
+              <div className="grid grid-cols-1 items-center">
+                <CustomFormField
+                  fieldType={FormFieldType.SELECT}
+                  control={form.control}
+                  name="account_type"
+                  label={t("account_type")}
+                >
+                  {accountTypes.map((item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      <div className="flex items-center gap-2">
                         {item.label}
                       </div>
                     </SelectItem>

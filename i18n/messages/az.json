@@ -36,13 +36,16 @@
     "save": "Əməliyyatı yadda saxla",
     "amount": "Məbləğ",
     "category": "Kateqoriya",
+    "account_type": "Hesab növü",
     "description": "Qeyd",
     "confirm_delete": "Bu əməliyyatı silmək istədiyinizə əminsiniz?",
     "not_found": "Seçilmiş tarix aralığında heç bir əməliyyat tapılmadı.",
     "add_success": "Əməliyyat uğurla əlavə edildi.",
     "update_success": "Əməliyyat uğurla yeniləndi.",
     "delete_success": "Əməliyyat uğurla silindi.",
-    "no_data_between_dates": "Seçilmiş tarixlər arasında heç bir məlumat yoxdur."
+    "no_data_between_dates": "Seçilmiş tarixlər arasında heç bir məlumat yoxdur.",
+    "bank": "Bank hesabı",
+    "cash": "Nağd"
   },
   "category": {
     "entertainment": "Əyləncə",
@@ -94,6 +97,7 @@
     "full_name_required": "Tam ad tələb olunur",
     "confirm_password_required": "Şifrəni təsdiqləmək tələb olunur",
     "category_required": "Kateqoriya tələb olunur",
+    "account_type_required": "Hesab növü tələb olunur",
     "amount_required": "Məbləğ tələb olunur",
     "amount_invalid": "Məbləğ düzgün deyil",
     "date_required": "Tarix tələb olunur"

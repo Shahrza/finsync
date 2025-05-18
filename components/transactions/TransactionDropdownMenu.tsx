@@ -111,7 +111,7 @@ export const TransactionDropdownMenu = ({ id }: Props) => {
             onClick={handleDelete}
             type="submit"
             loading={isLoading}
-            className="bg-red-600 text-white hover:bg-red-700"
+            className="bg-red-600 text-white hover:bg-red-700 mb-2 md:mb-0"
           >
             {t("delete")}
           </Button>

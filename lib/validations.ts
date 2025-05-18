@@ -26,6 +26,7 @@ export const signUpSchema = z
 export const transactionSchema = z.object({
   type: z.enum(["expense", "income"]),
   category_id: z.string().nonempty("category_required"),
+  account_type: z.string().nonempty("account_type_required"),
   amount: z
     .string()
     .nonempty("amount_required")
