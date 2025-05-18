@@ -18,6 +18,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
+import { DynamicIcon, IconName } from "lucide-react/dynamic";
 
 import { Form, FormControl } from "@/components/ui/form";
 import CustomFormField, {
@@ -35,6 +36,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import useTransactions from "@/store/useTransactions";
 import { UserContext } from "@/context/userContext";
+import { categories as categoriesArr } from "@/utils/categories";
+import { getHexFromTailwindClass } from "@/lib/utils";
 
 type Category = {
   id: string;
@@ -155,6 +158,7 @@ const TransactionModal = ({ categories }: Props) => {
       .map(({ id, value }) => ({
         value: id,
         label: categoryT(value),
+        name: value,
       }));
   }, [categories, type, categoryT]);
 
@@ -236,7 +240,16 @@ const TransactionModal = ({ categories }: Props) => {
                 >
                   {categoryList.map((item) => (
                     <SelectItem key={item.value} value={item.value}>
-                      {item.label}
+                      <div className="flex items-center gap-2">
+                        <DynamicIcon
+                          size={20}
+                          color={getHexFromTailwindClass(
+                            categoriesArr[item.name].color
+                          )}
+                          name={categoriesArr[item.name].icon as IconName}
+                        ></DynamicIcon>{" "}
+                        {item.label}
+                      </div>
                     </SelectItem>
                   ))}
                 </CustomFormField>

@@ -138,7 +138,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
                 <SelectValue placeholder={props.placeholder} />
               </SelectTrigger>
             </FormControl>
-            <SelectContent className="shad-select-content">
+            <SelectContent className="shad-select-content max-h-[250px] md:max-h-[100%] overflow-y-auto">
               {props.children}
             </SelectContent>
           </Select>
