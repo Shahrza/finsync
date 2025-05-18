@@ -12,9 +12,9 @@ const WelcomeMessage = () => {
   return (
     <>
       {fullName && (
-        <div className="text-stone-800 mb-6 ml-1 dark:text-white">
+        <h2 className="text-stone-800 mb-6 ml-1 dark:text-white text-xl md:text-2xl">
           {t("welcome")}, <span className="font-semibold">{fullName}</span>
-        </div>
+        </h2>
       )}
     </>
   );

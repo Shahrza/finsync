@@ -1,0 +1,8 @@
+.pie-chart .recharts-responsive-container {
+  min-width: 330px !important;
+  min-height: 330px !important;
+}
+
+.pie-chart .recharts-wrapper {
+  max-height: 300px !important;
+}

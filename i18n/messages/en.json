@@ -41,7 +41,8 @@
     "not_found": "No transactions found for the selected date range.",
     "add_success": "Transaction added successfully.",
     "update_success": "Transaction updated successfully.",
-    "delete_success": "Transaction deleted successfully."
+    "delete_success": "Transaction deleted successfully.",
+    "no_data_between_dates": "No data available between the selected dates."
   },
   "category": {
     "entertainment": "Entertainment",
@@ -96,5 +97,9 @@
     "amount_required": "Amount is required",
     "amount_invalid": "Amount must be a number",
     "date_required": "Date is required"
+  },
+  "chart": {
+    "income_by_category": "Income by Categories (%)",
+    "expense_by_category": "Expense by Categories (%)"
   }
 }

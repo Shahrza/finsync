@@ -7,6 +7,7 @@ import {
   getOverviewDataByMonth,
   getOverviewDataByYear,
   getTransactions,
+  getCategoryPercentagesByMonth,
 } from "@/lib/actions/transaction";
 import { getCategories } from "@/lib/actions/category";
 import { groupTransactionsByDate } from "@/helper/groupTransactionsByDate";
@@ -19,6 +20,7 @@ import TransactionDailyOverview from "@/components/transactions/TransactionDaily
 import Calendar from "@/components/transactions/Calendar";
 import TransactionChart from "@/components/charts/TransactionChart";
 import WelcomeMessage from "@/components/WelcomeMessage";
+import CategoryChart from "@/components/charts/CategoryChart";
 
 type PageProps = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -26,6 +28,7 @@ type PageProps = {
 
 const Home = async ({ searchParams }: PageProps) => {
   const t = await getTranslations("transaction");
+  const chartT = await getTranslations("chart");
   const locale = await getLocale();
 
   const {
@@ -33,6 +36,14 @@ const Home = async ({ searchParams }: PageProps) => {
     toDate = format(startOfMonth(addMonths(new Date(), 1)), "yyyy-MM-dd"),
     ascending = false,
   } = await searchParams;
+
+  const month = new Date(fromDate as string).getMonth() + 1;
+  const year = new Date(fromDate as string).getFullYear();
+
+  const dateRange =
+    format(new Date(fromDate as string), "MM.yyyy") +
+    " - " +
+    format(new Date(toDate as string), "MM.yyyy");
 
   const { data, error } = await getTransactions({
     fromDate: fromDate as string,
@@ -59,6 +70,11 @@ const Home = async ({ searchParams }: PageProps) => {
   );
 
   const { data: categoryList } = await getCategories();
+
+  const { data: categoryData } = await getCategoryPercentagesByMonth(
+    month,
+    year
+  );
 
   const localizedYearlyOverview = yearlyOverview.map(
     (item: MonthlyOverview, index: number) => ({
@@ -90,6 +106,24 @@ const Home = async ({ searchParams }: PageProps) => {
       {displayYearlyOverview && (
         <div className="p-4 bg-white rounded-xl shadow-md dark:bg-zinc-900 mb-4">
           <TransactionChart data={localizedYearlyOverview} />
+        </div>
+      )}
+      {hasTransactions && (
+        <div className="flex flex-col sm:flex-row gap-4 mb-4">
+          <div className="w-full">
+            <CategoryChart
+              data={categoryData.income}
+              label={chartT("income_by_category")}
+              dateRange={dateRange}
+            />
+          </div>
+          <div className="w-full">
+            <CategoryChart
+              data={categoryData.expense}
+              label={chartT("expense_by_category")}
+              dateRange={dateRange}
+            />
+          </div>
         </div>
       )}
       <div className="block sm:hidden p-4 bg-white rounded-xl shadow-md dark:bg-zinc-900 mb-4">

@@ -16,9 +16,7 @@ export const getTransactions = withSupabase(
     const { fromDate, toDate, ascending } = query;
     const res = await supabase
       .from("transactions")
-      .select(
-        `id,user_id,amount,type,note,date,category:categories(name,value)`
-      )
+      .select(`id,user_id,amount,type,note,date,category:categories(id,value)`)
       .gte("date", fromDate)
       .lt("date", toDate)
       .order("date", { ascending });
@@ -64,6 +62,16 @@ export const getOverviewDataByMonth = withSupabase(
 export const getOverviewDataByYear = withSupabase(
   async (supabase, year: string) => {
     const res = await supabase.rpc("get_yearly_income_expense", {
+      year,
+    });
+    return res;
+  }
+);
+
+export const getCategoryPercentagesByMonth = withSupabase(
+  async (supabase, month: number, year: number) => {
+    const res = await supabase.rpc("get_category_percentages_by_month", {
+      month,
       year,
     });
     return res;

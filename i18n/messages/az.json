@@ -41,11 +41,12 @@
     "not_found": "Seçilmiş tarix aralığında heç bir əməliyyat tapılmadı.",
     "add_success": "Əməliyyat uğurla əlavə edildi.",
     "update_success": "Əməliyyat uğurla yeniləndi.",
-    "delete_success": "Əməliyyat uğurla silindi."
+    "delete_success": "Əməliyyat uğurla silindi.",
+    "no_data_between_dates": "Seçilmiş tarixlər arasında heç bir məlumat yoxdur."
   },
   "category": {
     "entertainment": "Əyləncə",
-    "communication": "Əlaqə",
+    "communication": "Kommunikasiya",
     "gift": "Hədiyyə",
     "vehicle": "Nəqliyyat vasitəsi",
     "education": "Təhsil",
@@ -96,5 +97,9 @@
     "amount_required": "Məbləğ tələb olunur",
     "amount_invalid": "Məbləğ düzgün deyil",
     "date_required": "Tarix tələb olunur"
+  },
+  "chart": {
+    "income_by_category": "Kateqoriyalar üzrə gəlir (%)",
+    "expense_by_category": "Kateqoriyalar üzrə xərc (%)"
   }
 }
