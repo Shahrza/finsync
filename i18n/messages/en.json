@@ -62,7 +62,8 @@
     "credit": "Credit",
     "other": "Other",
     "income": "Income",
-    "bonus": "Bonus"
+    "bonus": "Bonus",
+    "salary": "Salary"
   },
   "calendar": {
     "month": {
