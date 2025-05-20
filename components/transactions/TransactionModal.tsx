@@ -181,7 +181,7 @@ const TransactionModal = ({ categories }: Props) => {
           {t("add")}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]" aria-describedby={undefined}>
+      <DialogContent className="sm:max-w-[540px]" aria-describedby={undefined}>
         <DialogHeader>
           <DialogTitle>
             {editingTransactionId ? t("edit") : t("add")}
@@ -296,7 +296,12 @@ const TransactionModal = ({ categories }: Props) => {
             </div>
             <Separator className="my-4" />
             <DialogFooter>
-              <Button type="submit" size="block" loading={isLoading}>
+              <Button
+                type="submit"
+                size="block"
+                loading={isLoading}
+                className="font-bold"
+              >
                 {t("save")}
               </Button>
             </DialogFooter>

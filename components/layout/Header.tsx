@@ -8,7 +8,7 @@ type Props = {
 
 const Header = async ({ isAuthenticated }: Props) => {
   return (
-    <div className="shadow-md bg-white dark:bg-zinc-900">
+    <div className="sticky top-0 z-10 bg-white dark:bg-stone-900 shadow-md">
       <div className="container mx-auto p-4 flex justify-between items-center">
         <div className="text-2xl text-stone-800 font-semibold dark:text-white mr-4">
           FinSync
