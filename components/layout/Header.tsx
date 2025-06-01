@@ -64,7 +64,11 @@ const Header = ({ isAuthenticated }: Props) => {
           )}
         </div>
 
-        <div className={`${isAuthenticated ? "hidden" : ""} flex items-center`}>
+        <div
+          className={`${
+            isAuthenticated ? "md:flex hidden" : ""
+          } flex items-center`}
+        >
           <div className="mr-2">
             <LangToggle />
           </div>
