@@ -30,7 +30,14 @@ export const transactionSchema = z.object({
   amount: z
     .string()
     .nonempty("amount_required")
-    .regex(/^\d+(\.\d{1,2})?$/, "amount_invalid"),
+    .regex(/^\d+(\.\d+)?$/, "amount_invalid")
+    .transform((val) => {
+      const parts = val.split(".");
+      if (parts.length === 2 && parts[1].length > 2) {
+        return parts[0] + "." + parts[1].substring(0, 2);
+      }
+      return val;
+    }),
   date: z.string().nonempty("date_required"),
   note: z.string().optional(),
   user_id: z.string().optional(),
