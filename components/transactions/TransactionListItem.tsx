@@ -18,10 +18,10 @@ const TransactionListItem = async ({ transaction }: Props) => {
       className="p-4 pr-2 rounded-lg bg-neutral-50 mb-4 lat:mb-0 dark:bg-zinc-800"
     >
       <div className="flex justify-between items-center">
-        <div className="flex items-center font-semibold">
+        <div className="flex items-center font-semibold min-w-0 flex-1">
           <div
             className={clsx(
-              "w-8 h-8 rounded-full flex items-center justify-center mr-4",
+              "w-8 h-8 rounded-full flex items-center justify-center mr-4 flex-shrink-0",
               categories[transaction.category.value]?.color
             )}
           >
@@ -31,11 +31,11 @@ const TransactionListItem = async ({ transaction }: Props) => {
               name={categories[transaction.category.value].icon as IconName}
             ></DynamicIcon>
           </div>
-          <div>
+          <div className="min-w-0 flex-1">
             <p className="text-gray-700 dark:text-gray-100">
               {t(transaction.category.value)}
             </p>
-            <p className="text-sm text-gray-400 font-normal dark:text-gray-100">
+            <p className="text-sm text-gray-400 font-normal dark:text-gray-100 sm:whitespace-normal truncate">
               {transaction.note}
             </p>
           </div>
